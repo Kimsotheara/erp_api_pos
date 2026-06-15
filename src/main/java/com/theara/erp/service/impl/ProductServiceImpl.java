@@ -65,9 +65,8 @@ public class ProductServiceImpl implements com.theara.erp.service.ProductService
     @Override
     @Transactional(readOnly = true)
     public PageAbleResponse<Product, ProductResponse, Void> getProducts(PageAbleRequest<Void> request) {
-        Page<Product> page = productRepository.findAll(request.getPageAble());
-        List<ProductResponse> list = page.getContent().stream().map(productMapper::toResponse).toList();
-        return new PageAbleResponse<>(page, list);
+        return com.theara.erp.common.PageMapper.toResponseWithoutImage(
+                productRepository.findAll(request.getPageAble()), productMapper::toResponse);
     }
 
     @Override

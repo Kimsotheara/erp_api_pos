@@ -6,7 +6,7 @@ import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
 @Data @Builder @NoArgsConstructor @AllArgsConstructor
-public class MenuItemResponse {
+public class MenuItemResponse implements Imageable {
     private Long id;
     private Long companyId;
     private Long productId;

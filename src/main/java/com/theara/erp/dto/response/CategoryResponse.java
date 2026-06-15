@@ -4,7 +4,7 @@ import lombok.*;
 import java.time.LocalDateTime;
 
 @Data @Builder @NoArgsConstructor @AllArgsConstructor
-public class CategoryResponse {
+public class CategoryResponse implements Imageable {
     private Long id;
     private Long companyId;
     private Long parentId;

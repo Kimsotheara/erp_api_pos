@@ -45,7 +45,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override @Transactional(readOnly = true)
     public PageAbleResponse<Category, CategoryResponse, Void> getCategories(PageAbleRequest<Void> request) {
-        return PageMapper.toResponse(categoryRepository.findAll(request.getPageAble()), categoryMapper::toResponse);
+        return PageMapper.toResponseWithoutImage(categoryRepository.findAll(request.getPageAble()), categoryMapper::toResponse);
     }
 
     @Override @Transactional

@@ -62,9 +62,8 @@ public class CompanyServiceImpl implements CompanyService {
     @Override
     @Transactional(readOnly = true)
     public PageAbleResponse<Company, CompanyResponse, Void> getCompanies(PageAbleRequest<Void> request) {
-        Page<Company> page = companyRepository.findAll(request.getPageAble());
-        List<CompanyResponse> list = page.getContent().stream().map(companyMapper::toResponse).toList();
-        return new PageAbleResponse<>(page, list);
+        return com.theara.erp.common.PageMapper.toResponseWithoutImage(
+                companyRepository.findAll(request.getPageAble()), companyMapper::toResponse);
     }
 
     @Override

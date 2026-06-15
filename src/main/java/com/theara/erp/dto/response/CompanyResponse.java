@@ -12,7 +12,7 @@ import java.time.LocalDateTime;
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class CompanyResponse {
+public class CompanyResponse implements Imageable {
     private Long id;
     private String name;
     private String legalName;

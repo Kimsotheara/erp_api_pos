@@ -47,7 +47,7 @@ public class MenuItemServiceImpl implements MenuItemService {
 
     @Override @Transactional(readOnly = true)
     public PageAbleResponse<MenuItem, MenuItemResponse, Void> getMenuItems(PageAbleRequest<Void> request) {
-        return PageMapper.toResponse(menuItemRepository.findAll(request.getPageAble()), menuItemMapper::toResponse);
+        return PageMapper.toResponseWithoutImage(menuItemRepository.findAll(request.getPageAble()), menuItemMapper::toResponse);
     }
 
     @Override @Transactional
