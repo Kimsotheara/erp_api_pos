@@ -20,6 +20,8 @@ public class SupplierRequest {
     @Email(message = "Email must be valid")
     private String email;
     private String address;
+    /** Base64-encoded image (data URI or raw base64). */
+    private String image;
     private Boolean isActive;
     @Valid
     private List<SupplierContactRequest> contacts;

@@ -69,6 +69,7 @@ public class CategoryServiceImpl implements CategoryService {
             c.setParent(null);
         }
         c.setName(r.getName());
+        c.setImage(r.getImage());
         if (r.getIsActive() != null) c.setIsActive(r.getIsActive());
     }
 

@@ -10,6 +10,7 @@ public class CategoryResponse {
     private Long parentId;
     private String parentName;
     private String name;
+    private String image;
     private Boolean isActive;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;

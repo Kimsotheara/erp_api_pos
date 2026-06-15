@@ -44,6 +44,10 @@ public class Supplier extends Audit {
     @Column(columnDefinition = "TEXT")
     private String address;
 
+    /** Base64-encoded image (data URI or raw base64). */
+    @Column(columnDefinition = "TEXT")
+    private String image;
+
     @Column(name = "outstanding_balance", nullable = false, precision = 18, scale = 4)
     private BigDecimal outstandingBalance = BigDecimal.ZERO;
 

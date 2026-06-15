@@ -12,6 +12,7 @@ public class CustomerResponse {
     private String phone;
     private String email;
     private String address;
+    private String image;
     private String membershipNo;
     private String membershipTier;
     private Integer loyaltyBalance;

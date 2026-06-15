@@ -13,6 +13,7 @@ public class UserResponse {
     private String email;
     private String fullName;
     private String phone;
+    private String image;
     private Long defaultBranchId;
     private Boolean isActive;
     private LocalDateTime lastLoginAt;

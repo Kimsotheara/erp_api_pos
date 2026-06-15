@@ -64,6 +64,7 @@ public class MenuItemServiceImpl implements MenuItemService {
         m.setProduct(r.getProductId() == null ? null
                 : productRepository.findById(r.getProductId()).orElseThrow(() -> ApiException.notFound("Product")));
         m.setName(r.getName());
+        m.setImage(r.getImage());
         m.setCategory(r.getCategory());
         m.setPrice(r.getPrice());
         m.setHappyHourPrice(r.getHappyHourPrice());

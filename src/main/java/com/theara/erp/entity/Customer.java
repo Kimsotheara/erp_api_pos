@@ -37,6 +37,10 @@ public class Customer extends Audit {
     @Column(columnDefinition = "TEXT")
     private String address;
 
+    /** Base64-encoded image (data URI or raw base64). */
+    @Column(columnDefinition = "TEXT")
+    private String image;
+
     @Column(name = "membership_no", length = 40)
     private String membershipNo;
 

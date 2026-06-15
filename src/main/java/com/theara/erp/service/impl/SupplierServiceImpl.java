@@ -83,6 +83,7 @@ public class SupplierServiceImpl implements SupplierService {
         s.setPhone(r.getPhone());
         s.setEmail(r.getEmail());
         s.setAddress(r.getAddress());
+        s.setImage(r.getImage());
         if (r.getIsActive() != null) s.setIsActive(r.getIsActive());
 
         // Replace the contact set wholesale (orphanRemoval clears the previous rows).

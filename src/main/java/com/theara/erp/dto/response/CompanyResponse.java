@@ -22,6 +22,7 @@ public class CompanyResponse {
     private String email;
     private String address;
     private String logoUrl;
+    private String image;
     private Boolean isActive;
     private LocalDateTime createdAt;
     private LocalDateTime updatedAt;

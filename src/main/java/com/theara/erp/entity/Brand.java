@@ -25,6 +25,10 @@ public class Brand extends Audit {
     @Column(nullable = false, length = 120)
     private String name;
 
+    /** Base64-encoded brand logo (data URI or raw base64). */
+    @Column(columnDefinition = "TEXT")
+    private String image;
+
     @Column(name = "is_active", nullable = false)
     private Boolean isActive = true;
 }

@@ -85,6 +85,7 @@ public class ProductServiceImpl implements com.theara.erp.service.ProductService
         product.setBarcode(request.getBarcode());
         product.setName(request.getName());
         product.setDescription(request.getDescription());
+        product.setImage(request.getImage());
         product.setCategory(request.getCategoryId() == null ? null
                 : categoryRepository.findById(request.getCategoryId())
                 .orElseThrow(() -> notFound("Category")));

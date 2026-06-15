@@ -44,6 +44,10 @@ public class Company extends Audit {
     @Column(name = "logo_url", length = 255)
     private String logoUrl;
 
+    /** Base64-encoded image (data URI or raw base64). */
+    @Column(columnDefinition = "TEXT")
+    private String image;
+
     @Column(name = "is_active", nullable = false)
     private Boolean isActive = true;
 }

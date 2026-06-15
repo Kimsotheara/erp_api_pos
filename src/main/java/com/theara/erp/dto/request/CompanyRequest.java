@@ -36,5 +36,8 @@ public class CompanyRequest {
 
     private String logoUrl;
 
+    /** Base64-encoded image (data URI or raw base64). */
+    private String image;
+
     private Boolean isActive;
 }

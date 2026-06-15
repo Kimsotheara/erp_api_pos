@@ -42,6 +42,10 @@ public class User extends Audit {
     @Column(length = 30)
     private String phone;
 
+    /** Base64-encoded staff photo (data URI or raw base64). */
+    @Column(columnDefinition = "TEXT")
+    private String image;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "default_branch_id")
     private Branch defaultBranch;
