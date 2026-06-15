@@ -7,6 +7,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Repository;
 
 import java.time.LocalDate;
+import java.util.List;
 
 @Repository
 public interface MedicineBatchRepository extends JpaRepository<MedicineBatch, Long> {
@@ -14,4 +15,7 @@ public interface MedicineBatchRepository extends JpaRepository<MedicineBatch, Lo
 
     Page<MedicineBatch> findByExpiryDateLessThanEqualAndQuantityGreaterThan(
             LocalDate cutoff, java.math.BigDecimal minQuantity, Pageable pageable);
+
+    List<MedicineBatch> findByProductIdAndWarehouseIdAndQuantityGreaterThanOrderByExpiryDateAsc(
+            Long productId, Long warehouseId, java.math.BigDecimal minQuantity);
 }

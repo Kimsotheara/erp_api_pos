@@ -8,11 +8,13 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
+import java.util.Optional;
 
 @Repository
 public interface ProductRepository extends JpaRepository<Product, Long> {
     boolean existsByCompanyIdAndSkuIgnoreCase(Long companyId, String sku);
     boolean existsByCompanyIdAndSkuIgnoreCaseAndIdNot(Long companyId, String sku, Long id);
+    Optional<Product> findFirstByBarcode(String barcode);
 
     @Query("""
             select p.id as productId, p.name as productName,

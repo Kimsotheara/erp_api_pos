@@ -30,6 +30,7 @@ public class InvoiceResponse {
     private BigDecimal paidAmount;
     private BigDecimal changeAmount;
     private String note;
+    private Long tableId;
     private List<InvoiceItemResponse> items;
     private List<PaymentResponse> payments;
 }

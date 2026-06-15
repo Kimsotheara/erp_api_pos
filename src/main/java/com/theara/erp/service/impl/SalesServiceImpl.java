@@ -1,12 +1,16 @@
 package com.theara.erp.service.impl;
 
+import com.theara.erp.common.PageMapper;
 import com.theara.erp.constant.ErrorCode;
 import com.theara.erp.constant.InvoiceStatus;
 import com.theara.erp.constant.StockMovementType;
+import com.theara.erp.dto.request.PageAbleRequest;
 import com.theara.erp.dto.request.SaleItemRequest;
 import com.theara.erp.dto.request.SalePaymentRequest;
 import com.theara.erp.dto.request.SaleRequest;
+import com.theara.erp.dto.request.VoidInvoiceRequest;
 import com.theara.erp.dto.response.InvoiceResponse;
+import com.theara.erp.dto.response.PageAbleResponse;
 import com.theara.erp.entity.*;
 import com.theara.erp.mapper.InvoiceMapper;
 import com.theara.erp.repository.*;
@@ -21,6 +25,7 @@ import org.springframework.web.server.ResponseStatusException;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
+import java.util.List;
 
 @Slf4j
 @Service
@@ -37,6 +42,7 @@ public class SalesServiceImpl implements SalesService {
     private final ProductRepository productRepository;
     private final ProductPriceRepository productPriceRepository;
     private final PaymentMethodRepository paymentMethodRepository;
+    private final MedicineBatchRepository medicineBatchRepository;
     private final InventoryService inventoryService;
     private final InvoiceMapper invoiceMapper;
 
@@ -139,10 +145,75 @@ public class SalesServiceImpl implements SalesService {
                         "INVOICE",
                         saved.getId(),
                         "Sale " + saved.getInvoiceNumber());
+                allocateBatchesFefo(warehouse.getId(), item);
             }
         }
 
         return invoiceMapper.toResponse(saved);
+    }
+
+    private void allocateBatchesFefo(Long warehouseId, InvoiceItem item) {
+        List<MedicineBatch> batches = medicineBatchRepository
+                .findByProductIdAndWarehouseIdAndQuantityGreaterThanOrderByExpiryDateAsc(
+                        item.getProduct().getId(), warehouseId, BigDecimal.ZERO);
+        if (batches.isEmpty()) {
+            return;
+        }
+        BigDecimal remaining = item.getQuantity();
+        Long firstBatchId = null;
+        for (MedicineBatch batch : batches) {
+            if (remaining.signum() <= 0) break;
+            BigDecimal take = batch.getQuantity().min(remaining);
+            batch.setQuantity(batch.getQuantity().subtract(take));
+            if (firstBatchId == null) firstBatchId = batch.getId();
+            remaining = remaining.subtract(take);
+        }
+        if (remaining.signum() > 0) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT,
+                    ErrorCode.INSUFFICIENT_STOCK.getDescription()
+                            + " (medicine batch stock for product " + item.getProduct().getId() + ")");
+        }
+        item.setBatchId(firstBatchId);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public PageAbleResponse<Invoice, InvoiceResponse, Void> getInvoices(PageAbleRequest<Void> request) {
+        return PageMapper.toResponse(invoiceRepository.findAll(request.getPageAble()), invoiceMapper::toResponse);
+    }
+
+    @Override
+    @Transactional
+    public InvoiceResponse voidInvoice(Long id, VoidInvoiceRequest request) {
+        Invoice invoice = invoiceRepository.findById(id).orElseThrow(() -> notFound("Invoice"));
+        if (invoice.getStatus() == InvoiceStatus.VOID) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT, "Invoice is already voided");
+        }
+        Warehouse warehouse = warehouseRepository.findById(request.getWarehouseId())
+                .orElseThrow(() -> notFound("Warehouse"));
+
+        for (InvoiceItem item : invoice.getItems()) {
+            if (Boolean.TRUE.equals(item.getProduct().getTrackStock())) {
+                inventoryService.applyMovement(
+                        warehouse.getId(),
+                        item.getProduct().getId(),
+                        item.getQuantity(),
+                        StockMovementType.RETURN,
+                        item.getProduct().getCostPrice(),
+                        "INVOICE_VOID",
+                        invoice.getId(),
+                        "Void " + invoice.getInvoiceNumber());
+                if (item.getBatchId() != null) {
+                    medicineBatchRepository.findById(item.getBatchId())
+                            .ifPresent(b -> b.setQuantity(b.getQuantity().add(item.getQuantity())));
+                }
+            }
+        }
+        invoice.setStatus(InvoiceStatus.VOID);
+        if (request.getReason() != null) {
+            invoice.setNote(request.getReason());
+        }
+        return invoiceMapper.toResponse(invoiceRepository.save(invoice));
     }
 
     @Override

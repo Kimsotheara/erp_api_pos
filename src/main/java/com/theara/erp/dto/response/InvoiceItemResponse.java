@@ -21,4 +21,5 @@ public class InvoiceItemResponse {
     private BigDecimal discountAmount;
     private BigDecimal taxAmount;
     private BigDecimal lineTotal;
+    private Long batchId;
 }

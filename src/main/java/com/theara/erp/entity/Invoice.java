@@ -79,6 +79,9 @@ public class Invoice extends Audit {
     @Column(name = "cashier_id")
     private Long cashierId;
 
+    @Column(name = "table_id")
+    private Long tableId;
+
     @OneToMany(mappedBy = "invoice", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default
     private List<InvoiceItem> items = new ArrayList<>();
