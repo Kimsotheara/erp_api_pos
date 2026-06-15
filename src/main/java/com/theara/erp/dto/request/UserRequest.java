@@ -19,6 +19,8 @@ public class UserRequest {
     private String password;
     private String fullName;
     private String phone;
+    /** Base64-encoded staff photo (data URI or raw base64). */
+    private String image;
     private Long defaultBranchId;
     private Boolean isActive;
     private List<Long> roleIds;

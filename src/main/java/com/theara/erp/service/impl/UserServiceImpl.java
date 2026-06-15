@@ -95,6 +95,7 @@ public class UserServiceImpl implements UserService {
         user.setEmail(r.getEmail());
         user.setFullName(r.getFullName());
         user.setPhone(r.getPhone());
+        user.setImage(r.getImage());
         user.setDefaultBranch(r.getDefaultBranchId() == null ? null
                 : branchRepository.findById(r.getDefaultBranchId()).orElseThrow(() -> notFound("Branch")));
         if (r.getIsActive() != null) user.setIsActive(r.getIsActive());

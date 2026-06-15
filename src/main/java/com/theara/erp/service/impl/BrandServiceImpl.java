@@ -58,6 +58,7 @@ public class BrandServiceImpl implements BrandService {
         brand.setCompany(companyRepository.findById(request.getCompanyId())
                 .orElseThrow(() -> ApiException.notFound("Company")));
         brand.setName(request.getName());
+        brand.setImage(request.getImage());
         if (request.getIsActive() != null) brand.setIsActive(request.getIsActive());
     }
 

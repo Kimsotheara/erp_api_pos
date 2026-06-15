@@ -32,6 +32,9 @@ public class ProductRequest {
 
     private String description;
 
+    /** Base64-encoded product image (data URI or raw base64). */
+    private String image;
+
     private Long categoryId;
     private Long brandId;
     private Long unitId;

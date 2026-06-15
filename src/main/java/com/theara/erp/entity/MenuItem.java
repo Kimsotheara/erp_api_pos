@@ -31,6 +31,10 @@ public class MenuItem extends Audit {
     @Column(nullable = false, length = 150)
     private String name;
 
+    /** Base64-encoded menu-item photo (data URI or raw base64). */
+    @Column(columnDefinition = "TEXT")
+    private String image;
+
     @Column(length = 80)
     private String category;
 

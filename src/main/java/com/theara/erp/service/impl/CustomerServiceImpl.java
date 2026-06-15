@@ -64,6 +64,7 @@ public class CustomerServiceImpl implements CustomerService {
         c.setPhone(r.getPhone());
         c.setEmail(r.getEmail());
         c.setAddress(r.getAddress());
+        c.setImage(r.getImage());
         c.setMembershipNo(r.getMembershipNo());
         c.setMembershipTier(r.getMembershipTier());
         if (r.getLoyaltyBalance() != null) c.setLoyaltyBalance(r.getLoyaltyBalance());

@@ -16,6 +16,7 @@ public class SupplierResponse {
     private String phone;
     private String email;
     private String address;
+    private String image;
     private BigDecimal outstandingBalance;
     private Boolean isActive;
     private List<SupplierContactResponse> contacts;

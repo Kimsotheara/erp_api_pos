@@ -36,6 +36,10 @@ public class Product extends Audit {
     @Column(columnDefinition = "TEXT")
     private String description;
 
+    /** Base64-encoded product image (data URI or raw base64). */
+    @Column(columnDefinition = "TEXT")
+    private String image;
+
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "category_id")
     private Category category;

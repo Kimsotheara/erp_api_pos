@@ -11,6 +11,7 @@ public class MenuItemResponse {
     private Long companyId;
     private Long productId;
     private String name;
+    private String image;
     private String category;
     private BigDecimal price;
     private BigDecimal happyHourPrice;
