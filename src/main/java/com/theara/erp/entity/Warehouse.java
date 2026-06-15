@@ -13,7 +13,6 @@ import org.hibernate.annotations.SQLRestriction;
 @Entity
 @Table(name = "warehouses")
 public class Warehouse extends Audit {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

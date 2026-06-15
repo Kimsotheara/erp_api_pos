@@ -19,7 +19,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j @Service @RequiredArgsConstructor
 public class UnitServiceImpl implements UnitService {
-
     private final UnitRepository unitRepository;
     private final CompanyRepository companyRepository;
     private final UnitMapper unitMapper;

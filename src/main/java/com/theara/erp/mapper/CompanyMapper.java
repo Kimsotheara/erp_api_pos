@@ -7,9 +7,6 @@ import org.mapstruct.*;
 
 @Mapper(componentModel = "spring")
 public interface CompanyMapper {
-
-    // isActive is ignored here and defaulted in the service so the entity's
-    // initializer (true) is not overwritten by a null request value.
     @BeanMapping(builder = @Builder(disableBuilder = true))
     @Mapping(target = "id", ignore = true)
     @Mapping(target = "isActive", ignore = true)

@@ -14,11 +14,9 @@ import org.springframework.stereotype.Component;
 import java.time.Instant;
 import java.util.List;
 
-/** Issues short-lived HS256 access tokens carrying the user's identity and roles. */
 @Component
 @RequiredArgsConstructor
 public class JwtTokenProvider {
-
     private final JwtEncoder jwtEncoder;
 
     @Value("${erp.security.jwt.access-token-ttl-seconds:3600}")

@@ -15,7 +15,6 @@ import org.hibernate.annotations.SQLRestriction;
 @Table(name = "restaurant_tables",
         uniqueConstraints = @UniqueConstraint(columnNames = {"branch_id", "name"}))
 public class RestaurantTable extends Audit {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

@@ -9,7 +9,6 @@ import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface KitchenTicketMapper {
-
     @Mapping(target = "invoiceId", source = "invoice.id")
     @Mapping(target = "tableId", source = "table.id")
     KitchenTicketResponse toResponse(KitchenTicket ticket);

@@ -21,7 +21,6 @@ import java.util.List;
 @Table(name = "invoices",
         uniqueConstraints = @UniqueConstraint(columnNames = {"company_id", "invoice_number"}))
 public class Invoice extends Audit {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

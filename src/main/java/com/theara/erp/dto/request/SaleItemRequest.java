@@ -15,7 +15,6 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 public class SaleItemRequest {
-
     @NotNull(message = "productId is required")
     private Long productId;
 
@@ -23,7 +22,6 @@ public class SaleItemRequest {
     @DecimalMin(value = "0.001", message = "quantity must be > 0")
     private BigDecimal quantity;
 
-    /** Optional. If omitted, the active RETAIL product price is used. */
     private BigDecimal unitPrice;
 
     @PositiveOrZero(message = "discountAmount must be >= 0")

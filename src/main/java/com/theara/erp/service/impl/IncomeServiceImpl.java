@@ -21,7 +21,6 @@ import java.time.LocalDate;
 
 @Slf4j @Service @RequiredArgsConstructor
 public class IncomeServiceImpl implements IncomeService {
-
     private final IncomeRepository incomeRepository;
     private final CompanyRepository companyRepository;
     private final BranchRepository branchRepository;

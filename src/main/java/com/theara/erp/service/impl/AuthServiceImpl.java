@@ -19,7 +19,6 @@ import java.time.LocalDateTime;
 
 @Slf4j @Service @RequiredArgsConstructor
 public class AuthServiceImpl implements AuthService {
-
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
     private final JwtTokenProvider jwtTokenProvider;

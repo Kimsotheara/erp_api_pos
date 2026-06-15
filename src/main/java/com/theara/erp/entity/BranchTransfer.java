@@ -19,7 +19,6 @@ import java.util.List;
 @Entity
 @Table(name = "branch_transfers")
 public class BranchTransfer extends Audit {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -35,12 +34,10 @@ public class BranchTransfer extends Audit {
     @JoinColumn(name = "to_branch_id", nullable = false)
     private Branch toBranch;
 
-    /** Source warehouse stock is deducted from on ship. */
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "from_warehouse_id", nullable = false)
     private Warehouse fromWarehouse;
 
-    /** Destination warehouse stock is added to on receive. */
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "to_warehouse_id", nullable = false)
     private Warehouse toWarehouse;

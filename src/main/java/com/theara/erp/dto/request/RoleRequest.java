@@ -14,6 +14,6 @@ public class RoleRequest {
     private String name;
     private String description;
     private Boolean isSystem;
-    /** Permission IDs granted to this role. */
+
     private List<Long> permissionIds;
 }

@@ -16,7 +16,6 @@ import java.time.LocalDateTime;
 @Table(name = "medicine_batches",
         uniqueConstraints = @UniqueConstraint(columnNames = {"product_id", "batch_number"}))
 public class MedicineBatch {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

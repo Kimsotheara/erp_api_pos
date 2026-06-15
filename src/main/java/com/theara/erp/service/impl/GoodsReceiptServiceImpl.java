@@ -27,7 +27,6 @@ import java.util.List;
 
 @Slf4j @Service @RequiredArgsConstructor
 public class GoodsReceiptServiceImpl implements GoodsReceiptService {
-
     private final GoodsReceiptRepository goodsReceiptRepository;
     private final PurchaseOrderRepository purchaseOrderRepository;
     private final WarehouseRepository warehouseRepository;
@@ -72,7 +71,7 @@ public class GoodsReceiptServiceImpl implements GoodsReceiptService {
             if (po != null) {
                 updatePoReceivedQty(po, product.getId(), r.getQuantity());
             }
-            // Keep the product's standard cost in step with the latest purchase price.
+
             if (unitCost.signum() > 0) {
                 product.setCostPrice(unitCost);
                 productRepository.save(product);
@@ -81,7 +80,6 @@ public class GoodsReceiptServiceImpl implements GoodsReceiptService {
 
         GoodsReceipt saved = goodsReceiptRepository.save(grn);
 
-        // Post stock-in movements once the GRN has an id so the ledger can reference it.
         for (GoodsReceiptItem item : saved.getItems()) {
             inventoryService.applyMovement(
                     warehouse.getId(),

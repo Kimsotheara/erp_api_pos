@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "Permission", description = "Fine-grained permission catalog")
 @Slf4j
 public class PermissionController {
-
     private final PermissionService permissionService;
 
     @Operation(summary = "List permissions")

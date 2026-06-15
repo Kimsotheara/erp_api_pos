@@ -11,7 +11,6 @@ import lombok.*;
 @Entity
 @Table(name = "supplier_contacts")
 public class SupplierContact {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

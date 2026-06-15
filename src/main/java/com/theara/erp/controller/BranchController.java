@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "Branch", description = "Branch / outlet management")
 @Slf4j
 public class BranchController {
-
     private final BranchService branchService;
 
     @Operation(summary = "List branches")

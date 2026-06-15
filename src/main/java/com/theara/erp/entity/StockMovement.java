@@ -7,7 +7,6 @@ import lombok.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-/** Append-only ledger of every stock change. */
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -16,7 +15,6 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "stock_movements")
 public class StockMovement {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -33,7 +31,6 @@ public class StockMovement {
     @Column(name = "movement_type", nullable = false, length = 20)
     private StockMovementType movementType;
 
-    /** Signed: positive for inbound, negative for outbound. */
     @Column(nullable = false, precision = 18, scale = 3)
     private BigDecimal quantity;
 

@@ -26,7 +26,6 @@ import java.util.List;
 
 @Slf4j @Service @RequiredArgsConstructor
 public class RoleServiceImpl implements RoleService {
-
     private final RoleRepository roleRepository;
     private final CompanyRepository companyRepository;
     private final PermissionRepository permissionRepository;

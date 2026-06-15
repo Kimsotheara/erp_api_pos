@@ -13,7 +13,6 @@ import org.hibernate.annotations.SQLRestriction;
 @Entity
 @Table(name = "brands")
 public class Brand extends Audit {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -25,7 +24,6 @@ public class Brand extends Audit {
     @Column(nullable = false, length = 120)
     private String name;
 
-    /** Base64-encoded brand logo (data URI or raw base64). */
     @Column(columnDefinition = "TEXT")
     private String image;
 

@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "Staff Shift", description = "Staff: roster assignment and clock-in/out attendance")
 @Slf4j
 public class StaffShiftController {
-
     private final StaffShiftService staffShiftService;
 
     @Operation(summary = "List staff shifts")

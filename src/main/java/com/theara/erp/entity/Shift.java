@@ -7,7 +7,6 @@ import org.hibernate.annotations.SQLRestriction;
 
 import java.time.LocalTime;
 
-/** Reusable shift template per branch (e.g. Morning 08:00–16:00). */
 @NoArgsConstructor
 @AllArgsConstructor
 @Getter
@@ -17,7 +16,6 @@ import java.time.LocalTime;
 @Table(name = "shifts",
         uniqueConstraints = @UniqueConstraint(columnNames = {"branch_id", "name"}))
 public class Shift extends Audit {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

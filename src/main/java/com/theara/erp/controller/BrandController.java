@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "Brand", description = "Product brand management")
 @Slf4j
 public class BrandController {
-
     private final BrandService brandService;
 
     @Operation(summary = "List brands")

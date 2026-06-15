@@ -10,7 +10,6 @@ import java.util.List;
 
 @Data @Builder @NoArgsConstructor @AllArgsConstructor
 public class GoodsReceiptRequest {
-    /** Optional — a receipt may be against a PO or a direct (ad-hoc) receipt. */
     private Long purchaseOrderId;
     @NotNull(message = "warehouseId is required")
     private Long warehouseId;

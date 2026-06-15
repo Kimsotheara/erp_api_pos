@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "Reservation", description = "Pub/Restaurant: table reservations")
 @Slf4j
 public class ReservationController {
-
     private final ReservationService reservationService;
 
     @Operation(summary = "List reservations")

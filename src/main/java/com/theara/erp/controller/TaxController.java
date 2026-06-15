@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "Tax", description = "Tax rate management")
 @Slf4j
 public class TaxController {
-
     private final TaxService taxService;
 
     @Operation(summary = "List taxes")

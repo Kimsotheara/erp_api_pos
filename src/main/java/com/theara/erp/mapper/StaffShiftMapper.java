@@ -9,7 +9,6 @@ import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface StaffShiftMapper {
-
     @Mapping(target = "companyId", source = "company.id")
     @Mapping(target = "branchId", source = "branch.id")
     @Mapping(target = "userId", source = "user.id")

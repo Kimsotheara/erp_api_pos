@@ -19,7 +19,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j @Service @RequiredArgsConstructor
 public class DrugCategoryServiceImpl implements DrugCategoryService {
-
     private final DrugCategoryRepository drugCategoryRepository;
     private final CompanyRepository companyRepository;
     private final DrugCategoryMapper drugCategoryMapper;

@@ -13,7 +13,6 @@ import java.time.LocalDateTime;
 @Setter
 @MappedSuperclass
 public abstract class Audit {
-
     @Column(name = "is_deleted", nullable = false)
     private Integer isDeleted = 0;
 

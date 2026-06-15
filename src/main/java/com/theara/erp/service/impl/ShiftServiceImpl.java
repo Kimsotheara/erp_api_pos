@@ -23,7 +23,6 @@ import java.util.List;
 
 @Slf4j @Service @RequiredArgsConstructor
 public class ShiftServiceImpl implements ShiftService {
-
     private final ShiftRepository shiftRepository;
     private final BranchRepository branchRepository;
     private final ShiftMapper shiftMapper;

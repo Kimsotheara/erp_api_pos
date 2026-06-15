@@ -15,7 +15,6 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 @AllArgsConstructor
 public class CompanyRequest {
-
     @NotBlank(message = "Company name is required")
     @Size(min = 2, max = 150, message = "Name must be between 2 and 150 characters")
     private String name;
@@ -36,7 +35,6 @@ public class CompanyRequest {
 
     private String logoUrl;
 
-    /** Base64-encoded image (data URI or raw base64). */
     private String image;
 
     private Boolean isActive;

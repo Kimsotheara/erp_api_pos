@@ -13,7 +13,6 @@ import org.hibernate.annotations.SQLRestriction;
 @Entity
 @Table(name = "payment_methods")
 public class PaymentMethod extends Audit {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

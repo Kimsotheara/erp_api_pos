@@ -9,6 +9,6 @@ public class LoginRequest {
     private String username;
     @NotBlank(message = "password is required")
     private String password;
-    /** Optional — disambiguates a username that exists in more than one company. */
+
     private Long companyId;
 }

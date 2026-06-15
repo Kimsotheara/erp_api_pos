@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "Cash Drawer", description = "Cashier shift cash management (open / movement / close)")
 @Slf4j
 public class CashDrawerController {
-
     private final CashDrawerService cashDrawerService;
 
     @Operation(summary = "List cash drawers")

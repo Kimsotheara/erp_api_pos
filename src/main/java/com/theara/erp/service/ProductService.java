@@ -7,7 +7,6 @@ import com.theara.erp.dto.response.ProductResponse;
 import com.theara.erp.entity.Product;
 
 public interface ProductService {
-
     ProductResponse createProduct(ProductRequest request);
 
     ProductResponse getProductById(Long id);

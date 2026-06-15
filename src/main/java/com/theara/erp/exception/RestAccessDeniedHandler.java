@@ -11,11 +11,9 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
-/** Returns the standard envelope (resultCode 0007) when an authenticated user lacks the required authority. */
 @Component
 @RequiredArgsConstructor
 public class RestAccessDeniedHandler implements AccessDeniedHandler {
-
     private final ObjectMapper objectMapper;
 
     @Override

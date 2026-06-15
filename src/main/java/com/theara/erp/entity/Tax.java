@@ -15,7 +15,6 @@ import java.math.BigDecimal;
 @Entity
 @Table(name = "taxes")
 public class Tax extends Audit {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

@@ -16,7 +16,6 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 public class ProductRequest {
-
     @NotNull(message = "companyId is required")
     private Long companyId;
 
@@ -32,7 +31,6 @@ public class ProductRequest {
 
     private String description;
 
-    /** Base64-encoded product image (data URI or raw base64). */
     private String image;
 
     private Long categoryId;

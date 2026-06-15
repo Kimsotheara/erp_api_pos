@@ -8,14 +8,7 @@ import org.springframework.http.MediaType;
 
 import java.io.IOException;
 
-/**
- * Writes the project's standard {@link NormalizeResponse} envelope directly to a
- * servlet response. Used by the security filter-chain handlers (401/403), which
- * run before {@code @RestControllerAdvice} and would otherwise return a bare
- * status with no body.
- */
 public final class StandardErrorWriter {
-
     private StandardErrorWriter() {
     }
 

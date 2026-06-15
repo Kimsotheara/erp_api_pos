@@ -15,11 +15,11 @@ public class UserRequest {
     private String username;
     @Email(message = "Email must be valid")
     private String email;
-    /** Required on create; optional on update (blank = keep existing password). */
+
     private String password;
     private String fullName;
     private String phone;
-    /** Base64-encoded staff photo (data URI or raw base64). */
+
     private String image;
     private Long defaultBranchId;
     private Boolean isActive;

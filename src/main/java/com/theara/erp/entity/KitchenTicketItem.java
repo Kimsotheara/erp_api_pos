@@ -14,7 +14,6 @@ import java.math.BigDecimal;
 @Entity
 @Table(name = "kitchen_ticket_items")
 public class KitchenTicketItem {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

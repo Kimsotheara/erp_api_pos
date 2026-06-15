@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "Company", description = "Organization — company management")
 @Slf4j
 public class CompanyController {
-
     private final CompanyService companyService;
 
     @Operation(summary = "List companies", description = "Paginated list of companies.")

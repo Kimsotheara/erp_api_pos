@@ -5,14 +5,8 @@ import com.theara.erp.entity.Product;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 
-/**
- * Entity -> Response only. Request -> Entity is handled in the service
- * because foreign keys (category/brand/unit/tax) must be resolved to managed
- * entities first.
- */
 @Mapper(componentModel = "spring")
 public interface ProductMapper {
-
     @Mapping(target = "companyId", source = "company.id")
     @Mapping(target = "categoryId", source = "category.id")
     @Mapping(target = "categoryName", source = "category.name")

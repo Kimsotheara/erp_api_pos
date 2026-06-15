@@ -13,7 +13,6 @@ import org.hibernate.annotations.SQLRestriction;
 @Entity
 @Table(name = "customers")
 public class Customer extends Audit {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -37,7 +36,6 @@ public class Customer extends Audit {
     @Column(columnDefinition = "TEXT")
     private String address;
 
-    /** Base64-encoded image (data URI or raw base64). */
     @Column(columnDefinition = "TEXT")
     private String image;
 

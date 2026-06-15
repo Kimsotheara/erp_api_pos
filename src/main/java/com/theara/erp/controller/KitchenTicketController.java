@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "Kitchen Ticket", description = "Pub/Restaurant: kitchen order tickets (KOT) workflow")
 @Slf4j
 public class KitchenTicketController {
-
     private final KitchenTicketService kitchenTicketService;
 
     @Operation(summary = "List kitchen tickets")

@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "Category", description = "Product category management")
 @Slf4j
 public class CategoryController {
-
     private final CategoryService categoryService;
 
     @Operation(summary = "List categories")

@@ -11,7 +11,6 @@ import java.time.LocalDateTime;
 import java.util.ArrayList;
 import java.util.List;
 
-/** One row per staff member rostered onto a shift for a given date. */
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -22,7 +21,6 @@ import java.util.List;
 @Table(name = "staff_shifts",
         uniqueConstraints = @UniqueConstraint(columnNames = {"user_id", "branch_id", "shift_date", "shift_id"}))
 public class StaffShift extends Audit {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

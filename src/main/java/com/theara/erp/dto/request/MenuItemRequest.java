@@ -14,7 +14,7 @@ public class MenuItemRequest {
     private Long productId;
     @NotBlank(message = "name is required")
     private String name;
-    /** Base64-encoded menu-item photo (data URI or raw base64). */
+
     private String image;
     private String category;
     @NotNull(message = "price is required")

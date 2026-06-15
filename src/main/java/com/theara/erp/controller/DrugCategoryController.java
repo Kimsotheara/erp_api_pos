@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "Drug Category", description = "Pharmacy: drug classifications")
 @Slf4j
 public class DrugCategoryController {
-
     private final DrugCategoryService drugCategoryService;
 
     @Operation(summary = "List drug categories")

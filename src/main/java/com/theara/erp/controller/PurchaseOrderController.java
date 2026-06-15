@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "Purchase Order", description = "Procurement: purchase orders, approval workflow")
 @Slf4j
 public class PurchaseOrderController {
-
     private final PurchaseOrderService purchaseOrderService;
 
     @Operation(summary = "List purchase orders")

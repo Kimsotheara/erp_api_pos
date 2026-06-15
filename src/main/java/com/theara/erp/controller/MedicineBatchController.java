@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "Medicine Batch", description = "Pharmacy: batch tracking, expiry monitoring, stock-in")
 @Slf4j
 public class MedicineBatchController {
-
     private final MedicineBatchService medicineBatchService;
 
     @Operation(summary = "List medicine batches")

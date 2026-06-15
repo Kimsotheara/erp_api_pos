@@ -16,15 +16,9 @@ import org.springframework.web.server.ResponseStatusException;
 import java.util.HashMap;
 import java.util.Map;
 
-/**
- * Translates every exception into the project's standard {@link NormalizeResponse}
- * envelope so error responses share the exact same shape as success responses:
- * {@code { result, resultCode, resultMessage, body }}.
- */
 @Slf4j
 @RestControllerAdvice
 public class GlobalExceptionHandler {
-
     @ExceptionHandler(MethodArgumentNotValidException.class)
     public ResponseEntity<NormalizeResponse<Object>> handleValidation(MethodArgumentNotValidException ex) {
         Map<String, String> fieldErrors = new HashMap<>();

@@ -19,7 +19,6 @@ import java.time.LocalDate;
 @Tag(name = "Report", description = "Analytics: sales, profit, expense, inventory and dashboard reports")
 @Slf4j
 public class ReportController {
-
     private final ReportService reportService;
 
     @Operation(summary = "Sales summary", description = "Totals over a date range, optionally for one branch.")

@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "Supplier", description = "Supplier management and contacts")
 @Slf4j
 public class SupplierController {
-
     private final SupplierService supplierService;
 
     @Operation(summary = "List suppliers")

@@ -29,7 +29,6 @@ import java.util.List;
 
 @Slf4j @Service @RequiredArgsConstructor
 public class KitchenTicketServiceImpl implements KitchenTicketService {
-
     private final KitchenTicketRepository kitchenTicketRepository;
     private final InvoiceRepository invoiceRepository;
     private final RestaurantTableRepository restaurantTableRepository;
@@ -68,7 +67,7 @@ public class KitchenTicketServiceImpl implements KitchenTicketService {
     public KitchenTicketResponse updateStatus(Long id, KitchenStatus status) {
         KitchenTicket ticket = findById(id);
         ticket.setStatus(status);
-        // Cascade the status to the lines and stamp served time when the ticket is served.
+
         ticket.getItems().forEach(item -> item.setStatus(status));
         if (status == KitchenStatus.SERVED) {
             ticket.setServedAt(LocalDateTime.now());

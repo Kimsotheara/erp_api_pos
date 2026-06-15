@@ -14,7 +14,6 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "cash_movements")
 public class CashMovement {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -23,7 +22,6 @@ public class CashMovement {
     @JoinColumn(name = "cash_drawer_id", nullable = false)
     private CashDrawer cashDrawer;
 
-    /** IN = cash added to the drawer, OUT = cash removed. */
     @Column(nullable = false, length = 10)
     private String direction;
 

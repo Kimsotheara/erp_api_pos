@@ -21,7 +21,6 @@ import java.util.List;
 
 @Slf4j @Service @RequiredArgsConstructor
 public class PermissionServiceImpl implements PermissionService {
-
     private final PermissionRepository permissionRepository;
     private final PermissionMapper permissionMapper;
 

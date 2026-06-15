@@ -7,7 +7,6 @@ import com.theara.erp.dto.response.PageAbleResponse;
 import com.theara.erp.entity.Company;
 
 public interface CompanyService {
-
     CompanyResponse createCompany(CompanyRequest request);
 
     CompanyResponse getCompanyById(Long id);

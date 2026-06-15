@@ -22,7 +22,6 @@ import java.util.List;
 @Table(name = "purchase_orders",
         uniqueConstraints = @UniqueConstraint(columnNames = {"company_id", "po_number"}))
 public class PurchaseOrder extends Audit {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

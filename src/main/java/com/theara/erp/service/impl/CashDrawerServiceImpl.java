@@ -29,7 +29,6 @@ import java.util.List;
 
 @Slf4j @Service @RequiredArgsConstructor
 public class CashDrawerServiceImpl implements CashDrawerService {
-
     private final CashDrawerRepository cashDrawerRepository;
     private final BranchRepository branchRepository;
     private final CashDrawerMapper cashDrawerMapper;
@@ -90,7 +89,6 @@ public class CashDrawerServiceImpl implements CashDrawerService {
         return new PageAbleResponse<>(page, list);
     }
 
-    /** Expected drawer cash = opening + sum(IN) - sum(OUT). */
     private BigDecimal computeExpected(CashDrawer drawer) {
         BigDecimal total = drawer.getOpeningBalance();
         for (CashMovement m : drawer.getMovements()) {

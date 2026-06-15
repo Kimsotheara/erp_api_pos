@@ -6,7 +6,6 @@ import org.springframework.http.ResponseEntity;
 
 @UtilityClass
 public class DefaultResponse {
-
     public <T> ResponseEntity<NormalizeResponse<T>> OK(T body) {
         return withCode(body, ErrorCode.SUCCESS);
     }

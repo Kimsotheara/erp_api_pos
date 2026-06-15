@@ -14,7 +14,6 @@ import org.hibernate.annotations.SQLRestriction;
 @Entity
 @Table(name = "companies")
 public class Company extends Audit {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -44,7 +43,6 @@ public class Company extends Audit {
     @Column(name = "logo_url", length = 255)
     private String logoUrl;
 
-    /** Base64-encoded image (data URI or raw base64). */
     @Column(columnDefinition = "TEXT")
     private String image;
 

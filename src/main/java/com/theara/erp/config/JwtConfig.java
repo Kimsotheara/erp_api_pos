@@ -15,14 +15,8 @@ import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import java.nio.charset.StandardCharsets;
 
-/**
- * Local symmetric (HS256) JWT signing/validation. The same secret produces the
- * tokens at {@code /api/v1/auth/login} and validates them on the resource server,
- * so login-issued tokens work whether or not an external issuer is configured.
- */
 @Configuration
 public class JwtConfig {
-
     @Bean
     SecretKey jwtSecretKey(@Value("${erp.security.jwt.secret}") String secret) {
         return new SecretKeySpec(secret.getBytes(StandardCharsets.UTF_8), "HmacSHA256");

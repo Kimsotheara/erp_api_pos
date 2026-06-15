@@ -26,7 +26,6 @@ import java.math.RoundingMode;
 @Service
 @RequiredArgsConstructor
 public class SalesServiceImpl implements SalesService {
-
     private static final int MONEY_SCALE = 4;
     private static final BigDecimal HUNDRED = new BigDecimal("100");
 
@@ -127,9 +126,8 @@ public class SalesServiceImpl implements SalesService {
         invoice.setChangeAmount(scale(paid.subtract(total).max(BigDecimal.ZERO)));
         invoice.setStatus(resolveStatus(paid, total));
 
-        Invoice saved = invoiceRepository.save(invoice); // cascades items + payments
+        Invoice saved = invoiceRepository.save(invoice);
 
-        // Deduct stock only after the invoice has an id, so movements reference it.
         for (InvoiceItem item : saved.getItems()) {
             if (Boolean.TRUE.equals(item.getProduct().getTrackStock())) {
                 inventoryService.applyMovement(
@@ -169,7 +167,7 @@ public class SalesServiceImpl implements SalesService {
         Tax tax = product.getTax();
         if (tax == null || tax.getRate() == null || tax.getRate().signum() == 0
                 || Boolean.TRUE.equals(tax.getIsInclusive())) {
-            return BigDecimal.ZERO; // inclusive tax is already inside the price
+            return BigDecimal.ZERO;
         }
         return lineBase.multiply(tax.getRate()).divide(HUNDRED, MONEY_SCALE, RoundingMode.HALF_UP);
     }

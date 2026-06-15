@@ -23,7 +23,6 @@ import java.util.List;
 
 @Slf4j @Service @RequiredArgsConstructor
 public class PrescriptionServiceImpl implements PrescriptionService {
-
     private final PrescriptionRepository prescriptionRepository;
     private final InvoiceRepository invoiceRepository;
     private final CustomerRepository customerRepository;

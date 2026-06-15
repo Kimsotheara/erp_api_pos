@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/v1/warehouses")
 @Tag(name = "Warehouse", description = "Inventory — warehouse management")
 public class WarehouseController {
-
     private final WarehouseService service;
 
     @Operation(summary = "List warehouses")

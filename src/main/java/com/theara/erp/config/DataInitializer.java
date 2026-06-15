@@ -15,16 +15,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
-/**
- * Seeds a default company, a SUPER_ADMIN role and a superadmin user on startup
- * (only when missing), so the API is usable immediately after a fresh DB create.
- * Controlled by {@code erp.security.seed-superadmin}.
- */
 @Slf4j
 @Component
 @RequiredArgsConstructor
 public class DataInitializer implements CommandLineRunner {
-
     private static final String DEFAULT_COMPANY = "Default Company";
     private static final String SUPER_ADMIN_ROLE = "SUPER_ADMIN";
 

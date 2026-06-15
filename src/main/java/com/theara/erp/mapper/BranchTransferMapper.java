@@ -9,7 +9,6 @@ import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface BranchTransferMapper {
-
     @Mapping(target = "fromBranchId", source = "fromBranch.id")
     @Mapping(target = "toBranchId", source = "toBranch.id")
     @Mapping(target = "fromWarehouseId", source = "fromWarehouse.id")

@@ -17,7 +17,6 @@ import com.theara.erp.repository.UserRepository;
 import com.theara.erp.service.UserService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -31,7 +30,6 @@ import java.util.Set;
 
 @Slf4j @Service @RequiredArgsConstructor
 public class UserServiceImpl implements UserService {
-
     private final UserRepository userRepository;
     private final CompanyRepository companyRepository;
     private final BranchRepository branchRepository;
@@ -67,7 +65,7 @@ public class UserServiceImpl implements UserService {
                     "Username '" + request.getUsername() + "' " + ErrorCode.ALREADY_EXISTS.getDescription());
         }
         apply(user, request);
-        // Only rotate the password when a new one is supplied.
+
         if (StringUtils.hasText(request.getPassword())) {
             user.setPasswordHash(passwordEncoder.encode(request.getPassword()));
         }

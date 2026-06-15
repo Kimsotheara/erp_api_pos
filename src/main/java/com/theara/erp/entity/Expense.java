@@ -17,7 +17,6 @@ import java.time.LocalDate;
 @Entity
 @Table(name = "expenses")
 public class Expense extends Audit {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

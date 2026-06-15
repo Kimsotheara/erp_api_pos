@@ -6,7 +6,6 @@ import lombok.*;
 
 import java.time.LocalDateTime;
 
-/** Clock-in / clock-out / break punches for an assigned shift (audit trail). */
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -15,7 +14,6 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "shift_attendance")
 public class ShiftAttendance {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
