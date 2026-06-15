@@ -12,7 +12,6 @@ import java.util.List;
 
 @Repository
 public interface ExpenseRepository extends JpaRepository<Expense, Long> {
-
     @Query("""
             select coalesce(e.category, 'UNCATEGORIZED') as category,
                    coalesce(sum(e.amount), 0) as total,

@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "Expense", description = "Operating expense tracking")
 @Slf4j
 public class ExpenseController {
-
     private final ExpenseService expenseService;
 
     @Operation(summary = "List expenses")

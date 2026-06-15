@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/v1/payment-methods")
 @Tag(name = "Payment Method", description = "Sales — payment method management")
 public class PaymentMethodController {
-
     private final PaymentMethodService service;
 
     @Operation(summary = "List payment methods")

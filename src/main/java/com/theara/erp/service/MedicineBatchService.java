@@ -10,7 +10,7 @@ public interface MedicineBatchService {
     MedicineBatchResponse createBatch(MedicineBatchRequest request);
     MedicineBatchResponse getBatchById(Long id);
     PageAbleResponse<MedicineBatch, MedicineBatchResponse, Void> getBatches(PageAbleRequest<Void> request);
-    /** Batches expiring within {@code withinDays} that still hold stock. */
+
     PageAbleResponse<MedicineBatch, MedicineBatchResponse, Void> getExpiringBatches(int withinDays, PageAbleRequest<Void> request);
     void deleteBatch(Long id);
 }

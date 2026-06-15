@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "Product", description = "Product catalog management")
 @Slf4j
 public class ProductController {
-
     private final ProductService productService;
 
     @Operation(summary = "List products", description = "Paginated list of products.")

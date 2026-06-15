@@ -11,7 +11,7 @@ public class CategoryRequest {
     private Long parentId;
     @NotBlank(message = "name is required")
     private String name;
-    /** Base64-encoded image (data URI or raw base64). */
+
     private String image;
     private Boolean isActive;
 }

@@ -23,7 +23,6 @@ import java.util.List;
 
 @Slf4j @Service @RequiredArgsConstructor
 public class WarehouseServiceImpl implements WarehouseService {
-
     private final WarehouseRepository warehouseRepository;
     private final BranchRepository branchRepository;
     private final WarehouseMapper warehouseMapper;

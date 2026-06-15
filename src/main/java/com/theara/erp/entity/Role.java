@@ -17,7 +17,6 @@ import java.util.Set;
 @Table(name = "roles",
         uniqueConstraints = @UniqueConstraint(columnNames = {"company_id", "name"}))
 public class Role extends Audit {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

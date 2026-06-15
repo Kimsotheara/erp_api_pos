@@ -15,7 +15,6 @@ import java.util.List;
 
 @Configuration
 public class SwaggerConfig {
-
     private static final String BEARER_SCHEME = "bearerAuth";
     private static final String OAUTH2_SCHEME = "oauth2";
 
@@ -31,7 +30,7 @@ public class SwaggerConfig {
                         .contact(new Contact().name("Theara").email("ounkaa789@gmail.com"))
                         .license(new License().name("Proprietary")))
                 .servers(List.of(new Server().url("/").description("Default")))
-                // Apply the bearer JWT requirement globally so the Authorize button shows up
+
                 .addSecurityItem(new SecurityRequirement().addList(BEARER_SCHEME))
                 .components(new Components()
                         .addSecuritySchemes(BEARER_SCHEME, new SecurityScheme()

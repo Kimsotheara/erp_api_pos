@@ -21,7 +21,6 @@ import java.time.LocalDate;
 
 @Slf4j @Service @RequiredArgsConstructor
 public class ExpenseServiceImpl implements ExpenseService {
-
     private final ExpenseRepository expenseRepository;
     private final CompanyRepository companyRepository;
     private final BranchRepository branchRepository;

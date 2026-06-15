@@ -14,7 +14,6 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "prescriptions")
 public class Prescription {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

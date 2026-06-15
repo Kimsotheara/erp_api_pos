@@ -16,7 +16,6 @@ import java.util.List;
 @NoArgsConstructor
 @ToString
 public class PageAbleResponse<T, D, S> {
-
     public PageAbleResponse(Page<T> page, List<D> list) {
         this(page, list, null);
     }

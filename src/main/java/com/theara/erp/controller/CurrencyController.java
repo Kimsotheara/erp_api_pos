@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "Currency", description = "Currency and exchange-rate management")
 @Slf4j
 public class CurrencyController {
-
     private final CurrencyService currencyService;
 
     @Operation(summary = "List currencies")

@@ -16,7 +16,6 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/v1/customers")
 @Tag(name = "Customer", description = "Customer management")
 public class CustomerController {
-
     private final CustomerService customerService;
 
     @Operation(summary = "List customers")

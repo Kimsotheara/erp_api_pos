@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "Manufacturer", description = "Pharmacy: drug manufacturers")
 @Slf4j
 public class ManufacturerController {
-
     private final ManufacturerService manufacturerService;
 
     @Operation(summary = "List manufacturers")

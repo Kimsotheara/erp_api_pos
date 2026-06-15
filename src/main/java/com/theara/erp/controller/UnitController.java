@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "Unit", description = "Unit of measure management")
 @Slf4j
 public class UnitController {
-
     private final UnitService unitService;
 
     @Operation(summary = "List units")

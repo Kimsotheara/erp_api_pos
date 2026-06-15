@@ -14,7 +14,6 @@ public interface ProductRepository extends JpaRepository<Product, Long> {
     boolean existsByCompanyIdAndSkuIgnoreCase(Long companyId, String sku);
     boolean existsByCompanyIdAndSkuIgnoreCaseAndIdNot(Long companyId, String sku, Long id);
 
-    /** Stock-tracked products whose total on-hand across warehouses is at/below their reorder level. */
     @Query("""
             select p.id as productId, p.name as productName,
                    p.reorderLevel as reorderLevel,

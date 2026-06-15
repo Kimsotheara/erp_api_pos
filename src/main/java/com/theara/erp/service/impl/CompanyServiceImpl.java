@@ -11,19 +11,15 @@ import com.theara.erp.repository.CompanyRepository;
 import com.theara.erp.service.CompanyService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.List;
-
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class CompanyServiceImpl implements CompanyService {
-
     private final CompanyRepository companyRepository;
     private final CompanyMapper companyMapper;
 

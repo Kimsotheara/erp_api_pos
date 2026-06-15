@@ -15,7 +15,6 @@ import java.math.BigDecimal;
 @Entity
 @Table(name = "menu_items")
 public class MenuItem extends Audit {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -31,7 +30,6 @@ public class MenuItem extends Audit {
     @Column(nullable = false, length = 150)
     private String name;
 
-    /** Base64-encoded menu-item photo (data URI or raw base64). */
     @Column(columnDefinition = "TEXT")
     private String image;
 

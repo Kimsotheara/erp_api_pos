@@ -11,11 +11,9 @@ import org.springframework.stereotype.Component;
 
 import java.io.IOException;
 
-/** Returns the standard envelope (resultCode 0005) when a request has no / an invalid token. */
 @Component
 @RequiredArgsConstructor
 public class RestAuthenticationEntryPoint implements AuthenticationEntryPoint {
-
     private final ObjectMapper objectMapper;
 
     @Override

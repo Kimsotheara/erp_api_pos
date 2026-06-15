@@ -14,7 +14,6 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 @AllArgsConstructor
 public class SalePaymentRequest {
-
     @NotNull(message = "paymentMethodId is required")
     private Long paymentMethodId;
 

@@ -14,7 +14,7 @@ public class StaffShiftRequest {
     private Long branchId;
     @NotNull(message = "userId is required")
     private Long userId;
-    /** Optional — null for ad-hoc shifts without a template. */
+
     private Long shiftId;
     @NotNull(message = "shiftDate is required")
     private LocalDate shiftDate;

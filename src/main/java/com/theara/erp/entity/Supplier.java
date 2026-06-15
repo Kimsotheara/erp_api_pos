@@ -17,7 +17,6 @@ import java.util.List;
 @Entity
 @Table(name = "suppliers")
 public class Supplier extends Audit {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -44,7 +43,6 @@ public class Supplier extends Audit {
     @Column(columnDefinition = "TEXT")
     private String address;
 
-    /** Base64-encoded image (data URI or raw base64). */
     @Column(columnDefinition = "TEXT")
     private String image;
 

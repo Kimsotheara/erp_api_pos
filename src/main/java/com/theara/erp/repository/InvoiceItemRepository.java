@@ -14,7 +14,6 @@ import java.util.List;
 
 @Repository
 public interface InvoiceItemRepository extends JpaRepository<InvoiceItem, Long> {
-
     @Query("""
             select p.id as productId, p.name as productName,
                    coalesce(sum(ii.quantity), 0) as quantity,

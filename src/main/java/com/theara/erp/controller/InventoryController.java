@@ -21,7 +21,6 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/api/v1/inventory")
 @Tag(name = "Inventory", description = "Stock receipts and on-hand queries")
 public class InventoryController {
-
     private final InventoryService inventoryService;
 
     @Operation(summary = "Stock in (receive)",

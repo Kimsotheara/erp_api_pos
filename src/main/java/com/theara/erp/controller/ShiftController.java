@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "Shift", description = "Staff: reusable shift templates per branch")
 @Slf4j
 public class ShiftController {
-
     private final ShiftService shiftService;
 
     @Operation(summary = "List shifts")

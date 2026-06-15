@@ -16,7 +16,6 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 public class SaleRequest {
-
     @NotNull(message = "companyId is required")
     private Long companyId;
 
@@ -26,12 +25,10 @@ public class SaleRequest {
     @NotNull(message = "warehouseId is required")
     private Long warehouseId;
 
-    /** Optional walk-in customer. */
     private Long customerId;
 
     private Long cashierId;
 
-    /** Optional invoice-level discount applied on top of line discounts. */
     private BigDecimal discountAmount;
 
     private String note;

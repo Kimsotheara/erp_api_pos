@@ -29,7 +29,6 @@ import java.util.List;
 
 @Slf4j @Service @RequiredArgsConstructor
 public class PurchaseOrderServiceImpl implements PurchaseOrderService {
-
     private static final int MONEY_SCALE = 4;
 
     private final PurchaseOrderRepository purchaseOrderRepository;

@@ -13,7 +13,6 @@ import org.hibernate.annotations.SQLRestriction;
 @Entity
 @Table(name = "categories")
 public class Category extends Audit {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -29,7 +28,6 @@ public class Category extends Audit {
     @Column(nullable = false, length = 120)
     private String name;
 
-    /** Base64-encoded image (data URI or raw base64). */
     @Column(columnDefinition = "TEXT")
     private String image;
 

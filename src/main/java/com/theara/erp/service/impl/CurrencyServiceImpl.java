@@ -19,7 +19,6 @@ import java.math.BigDecimal;
 
 @Slf4j @Service @RequiredArgsConstructor
 public class CurrencyServiceImpl implements CurrencyService {
-
     private final CurrencyRepository currencyRepository;
     private final CurrencyMapper currencyMapper;
 

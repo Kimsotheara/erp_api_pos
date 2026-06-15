@@ -19,7 +19,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j @Service @RequiredArgsConstructor
 public class CustomerServiceImpl implements CustomerService {
-
     private final CustomerRepository customerRepository;
     private final CompanyRepository companyRepository;
     private final CustomerMapper customerMapper;

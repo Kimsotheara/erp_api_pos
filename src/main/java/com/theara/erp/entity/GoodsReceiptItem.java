@@ -13,7 +13,6 @@ import java.math.BigDecimal;
 @Entity
 @Table(name = "goods_receipt_items")
 public class GoodsReceiptItem {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

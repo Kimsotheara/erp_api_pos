@@ -18,7 +18,6 @@ import java.util.Set;
 @Table(name = "users",
         uniqueConstraints = @UniqueConstraint(columnNames = {"company_id", "username"}))
 public class User extends Audit {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -42,7 +41,6 @@ public class User extends Audit {
     @Column(length = 30)
     private String phone;
 
-    /** Base64-encoded staff photo (data URI or raw base64). */
     @Column(columnDefinition = "TEXT")
     private String image;
 

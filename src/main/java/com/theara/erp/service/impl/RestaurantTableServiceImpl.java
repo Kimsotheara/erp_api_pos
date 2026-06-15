@@ -24,7 +24,6 @@ import java.util.List;
 
 @Slf4j @Service @RequiredArgsConstructor
 public class RestaurantTableServiceImpl implements RestaurantTableService {
-
     private final RestaurantTableRepository restaurantTableRepository;
     private final BranchRepository branchRepository;
     private final RestaurantTableMapper restaurantTableMapper;

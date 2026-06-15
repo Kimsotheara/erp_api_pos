@@ -15,7 +15,6 @@ import org.springframework.data.domain.Sort;
 @ToString
 @Schema(description = "Generic pageable request wrapper with sorting support")
 public class PageAbleRequest<T> {
-
     @Schema(description = "Page number (1-based index)", example = "1", defaultValue = "1")
     private int pageNumber = 1;
 

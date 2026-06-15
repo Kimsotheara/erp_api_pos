@@ -10,20 +10,17 @@ import com.theara.erp.mapper.ProductMapper;
 import com.theara.erp.repository.*;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 @Slf4j
 @Service
 @RequiredArgsConstructor
 public class ProductServiceImpl implements com.theara.erp.service.ProductService {
-
     private final ProductRepository productRepository;
     private final CompanyRepository companyRepository;
     private final CategoryRepository categoryRepository;
@@ -77,7 +74,6 @@ public class ProductServiceImpl implements com.theara.erp.service.ProductService
         productRepository.save(product);
     }
 
-    /** Copies scalar fields and resolves foreign keys into managed references. */
     private void applyRequest(Product product, ProductRequest request) {
         product.setCompany(resolveCompany(request.getCompanyId()));
         product.setSku(request.getSku());

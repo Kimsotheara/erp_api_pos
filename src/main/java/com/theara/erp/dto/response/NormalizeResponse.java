@@ -6,7 +6,6 @@ import lombok.Data;
 @Data
 @Schema(description = "Standardized response wrapper for all API endpoints")
 public class NormalizeResponse<T> {
-
     public NormalizeResponse(T body) {
         this.body = body;
     }

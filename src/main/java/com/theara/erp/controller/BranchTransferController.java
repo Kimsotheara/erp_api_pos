@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "Branch Transfer", description = "Inter-branch stock transfers (ship / receive)")
 @Slf4j
 public class BranchTransferController {
-
     private final BranchTransferService branchTransferService;
 
     @Operation(summary = "List branch transfers")

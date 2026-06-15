@@ -23,7 +23,6 @@ import java.util.List;
 
 @Slf4j @Service @RequiredArgsConstructor
 public class PaymentMethodServiceImpl implements PaymentMethodService {
-
     private final PaymentMethodRepository paymentMethodRepository;
     private final CompanyRepository companyRepository;
     private final PaymentMethodMapper paymentMethodMapper;

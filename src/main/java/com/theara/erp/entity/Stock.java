@@ -6,10 +6,6 @@ import lombok.*;
 import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
-/**
- * Current quantity on hand per product per warehouse.
- * Not soft-deleted — it is mutable state, kept in sync with stock_movements.
- */
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -18,7 +14,6 @@ import java.time.LocalDateTime;
 @Entity
 @Table(name = "stocks", uniqueConstraints = @UniqueConstraint(columnNames = {"warehouse_id", "product_id"}))
 public class Stock {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

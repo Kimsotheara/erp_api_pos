@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "Prescription", description = "Pharmacy: prescription records")
 @Slf4j
 public class PrescriptionController {
-
     private final PrescriptionService prescriptionService;
 
     @Operation(summary = "List prescriptions")

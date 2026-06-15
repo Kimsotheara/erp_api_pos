@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "User", description = "User management with role and branch assignment")
 @Slf4j
 public class UserController {
-
     private final UserService userService;
 
     @Operation(summary = "List users")

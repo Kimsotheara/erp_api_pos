@@ -3,7 +3,6 @@ package com.theara.erp.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
-/** Static reference data — a fine-grained capability such as PRODUCT_CREATE. */
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
@@ -12,7 +11,6 @@ import lombok.*;
 @Entity
 @Table(name = "permissions")
 public class Permission {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

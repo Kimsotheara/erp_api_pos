@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "Goods Receipt", description = "Procurement: receive goods into inventory (GRN)")
 @Slf4j
 public class GoodsReceiptController {
-
     private final GoodsReceiptService goodsReceiptService;
 
     @Operation(summary = "List goods receipts")

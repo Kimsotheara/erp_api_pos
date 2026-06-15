@@ -15,17 +15,13 @@ import com.theara.erp.repository.SupplierRepository;
 import com.theara.erp.service.SupplierService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.List;
-
 @Slf4j @Service @RequiredArgsConstructor
 public class SupplierServiceImpl implements SupplierService {
-
     private final SupplierRepository supplierRepository;
     private final CompanyRepository companyRepository;
     private final SupplierMapper supplierMapper;
@@ -85,7 +81,6 @@ public class SupplierServiceImpl implements SupplierService {
         s.setImage(r.getImage());
         if (r.getIsActive() != null) s.setIsActive(r.getIsActive());
 
-        // Replace the contact set wholesale (orphanRemoval clears the previous rows).
         s.getContacts().clear();
         if (r.getContacts() != null) {
             for (SupplierContactRequest c : r.getContacts()) {

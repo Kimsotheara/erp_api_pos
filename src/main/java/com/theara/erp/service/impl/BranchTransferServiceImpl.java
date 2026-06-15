@@ -26,7 +26,6 @@ import java.util.List;
 
 @Slf4j @Service @RequiredArgsConstructor
 public class BranchTransferServiceImpl implements BranchTransferService {
-
     private final BranchTransferRepository branchTransferRepository;
     private final BranchRepository branchRepository;
     private final WarehouseRepository warehouseRepository;
@@ -106,9 +105,8 @@ public class BranchTransferServiceImpl implements BranchTransferService {
     public BranchTransferResponse cancelTransfer(Long id) {
         BranchTransfer transfer = findById(id);
         switch (transfer.getStatus()) {
-            case DRAFT -> { /* nothing shipped yet */ }
+            case DRAFT -> {  }
             case IN_TRANSIT -> {
-                // Return the in-transit stock to the source warehouse.
                 for (BranchTransferItem item : transfer.getItems()) {
                     inventoryService.applyMovement(
                             transfer.getFromWarehouse().getId(), item.getProduct().getId(), item.getQuantity(),

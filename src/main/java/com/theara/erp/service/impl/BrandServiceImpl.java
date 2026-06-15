@@ -18,7 +18,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j @Service @RequiredArgsConstructor
 public class BrandServiceImpl implements BrandService {
-
     private final BrandRepository brandRepository;
     private final CompanyRepository companyRepository;
     private final BrandMapper brandMapper;

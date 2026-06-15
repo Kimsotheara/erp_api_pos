@@ -19,7 +19,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j @Service @RequiredArgsConstructor
 public class ManufacturerServiceImpl implements ManufacturerService {
-
     private final ManufacturerRepository manufacturerRepository;
     private final CompanyRepository companyRepository;
     private final ManufacturerMapper manufacturerMapper;

@@ -24,7 +24,6 @@ import java.math.BigDecimal;
 @Service
 @RequiredArgsConstructor
 public class InventoryServiceImpl implements InventoryService {
-
     private final StockRepository stockRepository;
     private final StockMovementRepository stockMovementRepository;
     private final WarehouseRepository warehouseRepository;
@@ -35,7 +34,6 @@ public class InventoryServiceImpl implements InventoryService {
     public Stock applyMovement(Long warehouseId, Long productId, BigDecimal signedQuantity,
                                StockMovementType type, BigDecimal unitCost,
                                String referenceType, Long referenceId, String note) {
-
         if (signedQuantity == null || signedQuantity.signum() == 0) {
             throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Movement quantity must be non-zero");
         }
@@ -46,7 +44,6 @@ public class InventoryServiceImpl implements InventoryService {
         Product product = productRepository.findById(productId)
                 .orElseThrow(() -> notFound("Product"));
 
-        // Lock (or create) the on-hand row so concurrent sales can't oversell.
         Stock stock = stockRepository.lockByWarehouseIdAndProductId(warehouseId, productId)
                 .orElseGet(() -> Stock.builder()
                         .warehouse(warehouse)
@@ -55,7 +52,6 @@ public class InventoryServiceImpl implements InventoryService {
                         .avgCost(BigDecimal.ZERO)
                         .build());
 
-        // Ensure associations are the already-initialized instances (safe to read after the session closes).
         stock.setWarehouse(warehouse);
         stock.setProduct(product);
 
@@ -67,7 +63,6 @@ public class InventoryServiceImpl implements InventoryService {
                             + ", requested " + signedQuantity.abs() + ")");
         }
 
-        // Moving-average cost, updated only on inbound movements.
         if (signedQuantity.signum() > 0) {
             BigDecimal oldValue = stock.getQuantity().multiply(stock.getAvgCost());
             BigDecimal inValue = signedQuantity.multiply(cost);

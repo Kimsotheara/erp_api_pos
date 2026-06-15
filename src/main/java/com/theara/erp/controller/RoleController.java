@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "Role", description = "Role management with permission assignment")
 @Slf4j
 public class RoleController {
-
     private final RoleService roleService;
 
     @Operation(summary = "List roles")

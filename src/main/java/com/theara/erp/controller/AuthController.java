@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "Auth", description = "Local login and token issuance")
 @Slf4j
 public class AuthController {
-
     private final AuthService authService;
 
     @Operation(summary = "Login", description = "Authenticates a username/password and returns a signed JWT access token.")

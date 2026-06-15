@@ -11,7 +11,6 @@ import org.mapstruct.Mapping;
 
 @Mapper(componentModel = "spring")
 public interface InvoiceMapper {
-
     @Mapping(target = "companyId", source = "company.id")
     @Mapping(target = "branchId", source = "branch.id")
     @Mapping(target = "customerId", source = "customer.id")

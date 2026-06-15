@@ -24,7 +24,6 @@ import java.util.List;
 
 @Slf4j @Service @RequiredArgsConstructor
 public class BranchServiceImpl implements BranchService {
-
     private final BranchRepository branchRepository;
     private final CompanyRepository companyRepository;
     private final CurrencyRepository currencyRepository;

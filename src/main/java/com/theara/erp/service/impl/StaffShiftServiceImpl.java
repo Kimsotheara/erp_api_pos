@@ -27,7 +27,6 @@ import java.util.List;
 
 @Slf4j @Service @RequiredArgsConstructor
 public class StaffShiftServiceImpl implements StaffShiftService {
-
     private final StaffShiftRepository staffShiftRepository;
     private final CompanyRepository companyRepository;
     private final BranchRepository branchRepository;
@@ -91,7 +90,7 @@ public class StaffShiftServiceImpl implements StaffShiftService {
                 staffShift.setStatus(ShiftSessionStatus.CLOSED);
                 staffShift.setWorkedMinutes(computeWorkedMinutes(staffShift));
             }
-            default -> { /* BREAK_START / BREAK_END are recorded only */ }
+            default -> {  }
         }
         return staffShiftMapper.toResponse(staffShiftRepository.save(staffShift));
     }
@@ -120,7 +119,6 @@ public class StaffShiftServiceImpl implements StaffShiftService {
         staffShiftRepository.save(staffShift);
     }
 
-    /** Worked minutes = clock-in→clock-out span minus the sum of paired break intervals. */
     private int computeWorkedMinutes(StaffShift staffShift) {
         if (staffShift.getActualStart() == null || staffShift.getActualEnd() == null) return 0;
         long total = Duration.between(staffShift.getActualStart(), staffShift.getActualEnd()).toMinutes();

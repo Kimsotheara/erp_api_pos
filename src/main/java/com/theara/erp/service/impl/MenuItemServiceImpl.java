@@ -20,7 +20,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j @Service @RequiredArgsConstructor
 public class MenuItemServiceImpl implements MenuItemService {
-
     private final MenuItemRepository menuItemRepository;
     private final CompanyRepository companyRepository;
     private final ProductRepository productRepository;

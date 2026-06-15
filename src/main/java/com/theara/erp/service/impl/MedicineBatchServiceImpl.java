@@ -27,7 +27,6 @@ import java.util.List;
 
 @Slf4j @Service @RequiredArgsConstructor
 public class MedicineBatchServiceImpl implements MedicineBatchService {
-
     private final MedicineBatchRepository medicineBatchRepository;
     private final ProductRepository productRepository;
     private final WarehouseRepository warehouseRepository;
@@ -62,7 +61,6 @@ public class MedicineBatchServiceImpl implements MedicineBatchService {
                 .build();
         MedicineBatch saved = medicineBatchRepository.save(batch);
 
-        // Receiving a batch is the pharmacy stock-in mechanism: post it to the inventory ledger.
         inventoryService.applyMovement(warehouse.getId(), product.getId(), request.getQuantity(),
                 StockMovementType.IN, cost, "BATCH", saved.getId(),
                 "Medicine batch " + saved.getBatchNumber());

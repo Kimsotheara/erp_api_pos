@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "Restaurant Table", description = "Pub/Restaurant: table management")
 @Slf4j
 public class RestaurantTableController {
-
     private final RestaurantTableService restaurantTableService;
 
     @Operation(summary = "List tables")

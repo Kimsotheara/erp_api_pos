@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "Income", description = "Other income tracking")
 @Slf4j
 public class IncomeController {
-
     private final IncomeService incomeService;
 
     @Operation(summary = "List incomes")

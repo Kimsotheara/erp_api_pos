@@ -19,7 +19,6 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "Menu Item", description = "Pub/Restaurant: menu management with happy-hour pricing")
 @Slf4j
 public class MenuItemController {
-
     private final MenuItemService menuItemService;
 
     @Operation(summary = "List menu items")

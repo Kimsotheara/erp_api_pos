@@ -23,7 +23,6 @@ import java.util.List;
 
 @Slf4j @Service @RequiredArgsConstructor
 public class ReservationServiceImpl implements ReservationService {
-
     private final ReservationRepository reservationRepository;
     private final RestaurantTableRepository restaurantTableRepository;
     private final CustomerRepository customerRepository;

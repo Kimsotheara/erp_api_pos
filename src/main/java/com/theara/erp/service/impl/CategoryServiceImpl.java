@@ -19,7 +19,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 @Slf4j @Service @RequiredArgsConstructor
 public class CategoryServiceImpl implements CategoryService {
-
     private final CategoryRepository categoryRepository;
     private final CompanyRepository companyRepository;
     private final CategoryMapper categoryMapper;

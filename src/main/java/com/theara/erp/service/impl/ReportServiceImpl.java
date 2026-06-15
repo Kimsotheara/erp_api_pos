@@ -26,7 +26,6 @@ import java.util.List;
 
 @Slf4j @Service @RequiredArgsConstructor
 public class ReportServiceImpl implements ReportService {
-
     private static final int MONEY_SCALE = 4;
 
     private final InvoiceRepository invoiceRepository;

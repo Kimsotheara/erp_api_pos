@@ -13,7 +13,6 @@ import java.math.BigDecimal;
 @Entity
 @Table(name = "branch_transfer_items")
 public class BranchTransferItem {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;

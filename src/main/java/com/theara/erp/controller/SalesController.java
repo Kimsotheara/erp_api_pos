@@ -20,7 +20,6 @@ import org.springframework.web.bind.annotation.*;
 @Tag(name = "Sales / POS", description = "Point-of-sale checkout and invoices")
 @Slf4j
 public class SalesController {
-
     private final SalesService salesService;
 
     @Operation(summary = "Checkout (create sale)",
