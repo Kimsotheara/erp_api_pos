@@ -11,4 +11,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
     boolean existsByCompanyIdAndUsernameIgnoreCase(Long companyId, String username);
     boolean existsByCompanyIdAndUsernameIgnoreCaseAndIdNot(Long companyId, String username, Long id);
     Optional<User> findByCompanyIdAndUsernameIgnoreCase(Long companyId, String username);
+    Optional<User> findFirstByUsernameIgnoreCase(String username);
 }

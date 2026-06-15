@@ -1,25 +1,21 @@
 package com.theara.erp.service.impl;
 
-import com.theara.erp.constant.ErrorCode;
+import com.theara.erp.common.PageMapper;
 import com.theara.erp.dto.request.DrugCategoryRequest;
 import com.theara.erp.dto.request.PageAbleRequest;
 import com.theara.erp.dto.response.DrugCategoryResponse;
 import com.theara.erp.dto.response.PageAbleResponse;
 import com.theara.erp.entity.Company;
 import com.theara.erp.entity.DrugCategory;
+import com.theara.erp.exception.ApiException;
 import com.theara.erp.mapper.DrugCategoryMapper;
 import com.theara.erp.repository.CompanyRepository;
 import com.theara.erp.repository.DrugCategoryRepository;
 import com.theara.erp.service.DrugCategoryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.server.ResponseStatusException;
-
-import java.util.List;
 
 @Slf4j @Service @RequiredArgsConstructor
 public class DrugCategoryServiceImpl implements DrugCategoryService {
@@ -49,9 +45,7 @@ public class DrugCategoryServiceImpl implements DrugCategoryService {
 
     @Override @Transactional(readOnly = true)
     public PageAbleResponse<DrugCategory, DrugCategoryResponse, Void> getDrugCategories(PageAbleRequest<Void> request) {
-        Page<DrugCategory> page = drugCategoryRepository.findAll(request.getPageAble());
-        List<DrugCategoryResponse> list = page.getContent().stream().map(drugCategoryMapper::toResponse).toList();
-        return new PageAbleResponse<>(page, list);
+        return PageMapper.toResponse(drugCategoryRepository.findAll(request.getPageAble()), drugCategoryMapper::toResponse);
     }
 
     @Override @Transactional
@@ -62,17 +56,14 @@ public class DrugCategoryServiceImpl implements DrugCategoryService {
     }
 
     private void apply(DrugCategory d, DrugCategoryRequest r) {
-        Company company = companyRepository.findById(r.getCompanyId()).orElseThrow(() -> notFound("Company"));
+        Company company = companyRepository.findById(r.getCompanyId())
+                .orElseThrow(() -> ApiException.notFound("Company"));
         d.setCompany(company);
         d.setName(r.getName());
         if (r.getRequiresPrescription() != null) d.setRequiresPrescription(r.getRequiresPrescription());
     }
 
     private DrugCategory findById(Long id) {
-        return drugCategoryRepository.findById(id).orElseThrow(() -> notFound("DrugCategory"));
-    }
-
-    private ResponseStatusException notFound(String e) {
-        return new ResponseStatusException(HttpStatus.NOT_FOUND, e + " " + ErrorCode.NOT_FOUND.getDescription());
+        return drugCategoryRepository.findById(id).orElseThrow(() -> ApiException.notFound("DrugCategory"));
     }
 }

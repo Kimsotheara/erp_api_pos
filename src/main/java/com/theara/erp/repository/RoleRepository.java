@@ -11,4 +11,5 @@ public interface RoleRepository extends JpaRepository<Role, Long> {
     boolean existsByCompanyIdAndNameIgnoreCase(Long companyId, String name);
     boolean existsByCompanyIdAndNameIgnoreCaseAndIdNot(Long companyId, String name, Long id);
     List<Role> findByIdIn(List<Long> ids);
+    java.util.Optional<Role> findFirstByCompanyIdAndNameIgnoreCase(Long companyId, String name);
 }

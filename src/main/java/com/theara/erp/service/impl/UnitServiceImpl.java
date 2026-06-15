@@ -1,25 +1,21 @@
 package com.theara.erp.service.impl;
 
-import com.theara.erp.constant.ErrorCode;
+import com.theara.erp.common.PageMapper;
 import com.theara.erp.dto.request.PageAbleRequest;
 import com.theara.erp.dto.request.UnitRequest;
 import com.theara.erp.dto.response.PageAbleResponse;
 import com.theara.erp.dto.response.UnitResponse;
 import com.theara.erp.entity.Company;
 import com.theara.erp.entity.Unit;
+import com.theara.erp.exception.ApiException;
 import com.theara.erp.mapper.UnitMapper;
 import com.theara.erp.repository.CompanyRepository;
 import com.theara.erp.repository.UnitRepository;
 import com.theara.erp.service.UnitService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.server.ResponseStatusException;
-
-import java.util.List;
 
 @Slf4j @Service @RequiredArgsConstructor
 public class UnitServiceImpl implements UnitService {
@@ -49,9 +45,7 @@ public class UnitServiceImpl implements UnitService {
 
     @Override @Transactional(readOnly = true)
     public PageAbleResponse<Unit, UnitResponse, Void> getUnits(PageAbleRequest<Void> request) {
-        Page<Unit> page = unitRepository.findAll(request.getPageAble());
-        List<UnitResponse> list = page.getContent().stream().map(unitMapper::toResponse).toList();
-        return new PageAbleResponse<>(page, list);
+        return PageMapper.toResponse(unitRepository.findAll(request.getPageAble()), unitMapper::toResponse);
     }
 
     @Override @Transactional
@@ -63,7 +57,7 @@ public class UnitServiceImpl implements UnitService {
 
     private void apply(Unit u, UnitRequest r) {
         Company company = companyRepository.findById(r.getCompanyId())
-                .orElseThrow(() -> notFound("Company"));
+                .orElseThrow(() -> ApiException.notFound("Company"));
         u.setCompany(company);
         u.setName(r.getName());
         u.setAbbreviation(r.getAbbreviation());
@@ -71,10 +65,6 @@ public class UnitServiceImpl implements UnitService {
     }
 
     private Unit findById(Long id) {
-        return unitRepository.findById(id).orElseThrow(() -> notFound("Unit"));
-    }
-
-    private ResponseStatusException notFound(String e) {
-        return new ResponseStatusException(HttpStatus.NOT_FOUND, e + " " + ErrorCode.NOT_FOUND.getDescription());
+        return unitRepository.findById(id).orElseThrow(() -> ApiException.notFound("Unit"));
     }
 }

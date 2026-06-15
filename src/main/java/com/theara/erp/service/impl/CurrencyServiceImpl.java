@@ -1,24 +1,21 @@
 package com.theara.erp.service.impl;
 
-import com.theara.erp.constant.ErrorCode;
+import com.theara.erp.common.PageMapper;
 import com.theara.erp.dto.request.CurrencyRequest;
 import com.theara.erp.dto.request.PageAbleRequest;
 import com.theara.erp.dto.response.CurrencyResponse;
 import com.theara.erp.dto.response.PageAbleResponse;
 import com.theara.erp.entity.Currency;
+import com.theara.erp.exception.ApiException;
 import com.theara.erp.mapper.CurrencyMapper;
 import com.theara.erp.repository.CurrencyRepository;
 import com.theara.erp.service.CurrencyService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.math.BigDecimal;
-import java.util.List;
 
 @Slf4j @Service @RequiredArgsConstructor
 public class CurrencyServiceImpl implements CurrencyService {
@@ -29,8 +26,7 @@ public class CurrencyServiceImpl implements CurrencyService {
     @Override @Transactional
     public CurrencyResponse createCurrency(CurrencyRequest request) {
         if (currencyRepository.existsByCodeIgnoreCase(request.getCode())) {
-            throw new ResponseStatusException(HttpStatus.CONFLICT,
-                    "Currency code '" + request.getCode() + "' " + ErrorCode.CODE_ALREADY_EXISTS.getDescription());
+            throw ApiException.codeExists("Currency code '" + request.getCode() + "'");
         }
         Currency currency = new Currency();
         apply(currency, request);
@@ -51,9 +47,7 @@ public class CurrencyServiceImpl implements CurrencyService {
 
     @Override @Transactional(readOnly = true)
     public PageAbleResponse<Currency, CurrencyResponse, Void> getCurrencies(PageAbleRequest<Void> request) {
-        Page<Currency> page = currencyRepository.findAll(request.getPageAble());
-        List<CurrencyResponse> list = page.getContent().stream().map(currencyMapper::toResponse).toList();
-        return new PageAbleResponse<>(page, list);
+        return PageMapper.toResponse(currencyRepository.findAll(request.getPageAble()), currencyMapper::toResponse);
     }
 
     @Override @Transactional
@@ -73,10 +67,6 @@ public class CurrencyServiceImpl implements CurrencyService {
     }
 
     private Currency findById(Long id) {
-        return currencyRepository.findById(id).orElseThrow(() -> notFound("Currency"));
-    }
-
-    private ResponseStatusException notFound(String e) {
-        return new ResponseStatusException(HttpStatus.NOT_FOUND, e + " " + ErrorCode.NOT_FOUND.getDescription());
+        return currencyRepository.findById(id).orElseThrow(() -> ApiException.notFound("Currency"));
     }
 }
