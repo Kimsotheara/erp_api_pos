@@ -1,11 +1,12 @@
 package com.theara.erp.service.impl;
 
-import com.theara.erp.constant.ErrorCode;
+import com.theara.erp.common.PageMapper;
 import com.theara.erp.dto.request.ExpenseRequest;
 import com.theara.erp.dto.request.PageAbleRequest;
 import com.theara.erp.dto.response.ExpenseResponse;
 import com.theara.erp.dto.response.PageAbleResponse;
 import com.theara.erp.entity.Expense;
+import com.theara.erp.exception.ApiException;
 import com.theara.erp.mapper.ExpenseMapper;
 import com.theara.erp.repository.BranchRepository;
 import com.theara.erp.repository.CompanyRepository;
@@ -13,14 +14,10 @@ import com.theara.erp.repository.ExpenseRepository;
 import com.theara.erp.service.ExpenseService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @Slf4j @Service @RequiredArgsConstructor
 public class ExpenseServiceImpl implements ExpenseService {
@@ -51,9 +48,7 @@ public class ExpenseServiceImpl implements ExpenseService {
 
     @Override @Transactional(readOnly = true)
     public PageAbleResponse<Expense, ExpenseResponse, Void> getExpenses(PageAbleRequest<Void> request) {
-        Page<Expense> page = expenseRepository.findAll(request.getPageAble());
-        List<ExpenseResponse> list = page.getContent().stream().map(expenseMapper::toResponse).toList();
-        return new PageAbleResponse<>(page, list);
+        return PageMapper.toResponse(expenseRepository.findAll(request.getPageAble()), expenseMapper::toResponse);
     }
 
     @Override @Transactional
@@ -64,9 +59,9 @@ public class ExpenseServiceImpl implements ExpenseService {
     }
 
     private void apply(Expense e, ExpenseRequest r) {
-        e.setCompany(companyRepository.findById(r.getCompanyId()).orElseThrow(() -> notFound("Company")));
+        e.setCompany(companyRepository.findById(r.getCompanyId()).orElseThrow(() -> ApiException.notFound("Company")));
         e.setBranch(r.getBranchId() == null ? null
-                : branchRepository.findById(r.getBranchId()).orElseThrow(() -> notFound("Branch")));
+                : branchRepository.findById(r.getBranchId()).orElseThrow(() -> ApiException.notFound("Branch")));
         e.setCategory(r.getCategory());
         e.setAmount(r.getAmount());
         e.setDescription(r.getDescription());
@@ -75,10 +70,6 @@ public class ExpenseServiceImpl implements ExpenseService {
     }
 
     private Expense findById(Long id) {
-        return expenseRepository.findById(id).orElseThrow(() -> notFound("Expense"));
-    }
-
-    private ResponseStatusException notFound(String e) {
-        return new ResponseStatusException(HttpStatus.NOT_FOUND, e + " " + ErrorCode.NOT_FOUND.getDescription());
+        return expenseRepository.findById(id).orElseThrow(() -> ApiException.notFound("Expense"));
     }
 }

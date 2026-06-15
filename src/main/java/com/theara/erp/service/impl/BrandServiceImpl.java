@@ -1,25 +1,20 @@
 package com.theara.erp.service.impl;
 
-import com.theara.erp.constant.ErrorCode;
+import com.theara.erp.common.PageMapper;
 import com.theara.erp.dto.request.BrandRequest;
 import com.theara.erp.dto.request.PageAbleRequest;
 import com.theara.erp.dto.response.BrandResponse;
 import com.theara.erp.dto.response.PageAbleResponse;
 import com.theara.erp.entity.Brand;
-import com.theara.erp.entity.Company;
+import com.theara.erp.exception.ApiException;
 import com.theara.erp.mapper.BrandMapper;
 import com.theara.erp.repository.BrandRepository;
 import com.theara.erp.repository.CompanyRepository;
 import com.theara.erp.service.BrandService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.server.ResponseStatusException;
-
-import java.util.List;
 
 @Slf4j @Service @RequiredArgsConstructor
 public class BrandServiceImpl implements BrandService {
@@ -49,9 +44,7 @@ public class BrandServiceImpl implements BrandService {
 
     @Override @Transactional(readOnly = true)
     public PageAbleResponse<Brand, BrandResponse, Void> getBrands(PageAbleRequest<Void> request) {
-        Page<Brand> page = brandRepository.findAll(request.getPageAble());
-        List<BrandResponse> list = page.getContent().stream().map(brandMapper::toResponse).toList();
-        return new PageAbleResponse<>(page, list);
+        return PageMapper.toResponse(brandRepository.findAll(request.getPageAble()), brandMapper::toResponse);
     }
 
     @Override @Transactional
@@ -61,19 +54,14 @@ public class BrandServiceImpl implements BrandService {
         brandRepository.save(brand);
     }
 
-    private void apply(Brand b, BrandRequest r) {
-        Company company = companyRepository.findById(r.getCompanyId())
-                .orElseThrow(() -> notFound("Company"));
-        b.setCompany(company);
-        b.setName(r.getName());
-        if (r.getIsActive() != null) b.setIsActive(r.getIsActive());
+    private void apply(Brand brand, BrandRequest request) {
+        brand.setCompany(companyRepository.findById(request.getCompanyId())
+                .orElseThrow(() -> ApiException.notFound("Company")));
+        brand.setName(request.getName());
+        if (request.getIsActive() != null) brand.setIsActive(request.getIsActive());
     }
 
     private Brand findById(Long id) {
-        return brandRepository.findById(id).orElseThrow(() -> notFound("Brand"));
-    }
-
-    private ResponseStatusException notFound(String e) {
-        return new ResponseStatusException(HttpStatus.NOT_FOUND, e + " " + ErrorCode.NOT_FOUND.getDescription());
+        return brandRepository.findById(id).orElseThrow(() -> ApiException.notFound("Brand"));
     }
 }

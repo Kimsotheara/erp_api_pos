@@ -1,25 +1,21 @@
 package com.theara.erp.service.impl;
 
-import com.theara.erp.constant.ErrorCode;
+import com.theara.erp.common.PageMapper;
 import com.theara.erp.dto.request.CustomerRequest;
 import com.theara.erp.dto.request.PageAbleRequest;
 import com.theara.erp.dto.response.CustomerResponse;
 import com.theara.erp.dto.response.PageAbleResponse;
 import com.theara.erp.entity.Company;
 import com.theara.erp.entity.Customer;
+import com.theara.erp.exception.ApiException;
 import com.theara.erp.mapper.CustomerMapper;
 import com.theara.erp.repository.CompanyRepository;
 import com.theara.erp.repository.CustomerRepository;
 import com.theara.erp.service.CustomerService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.server.ResponseStatusException;
-
-import java.util.List;
 
 @Slf4j @Service @RequiredArgsConstructor
 public class CustomerServiceImpl implements CustomerService {
@@ -49,9 +45,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override @Transactional(readOnly = true)
     public PageAbleResponse<Customer, CustomerResponse, Void> getCustomers(PageAbleRequest<Void> request) {
-        Page<Customer> page = customerRepository.findAll(request.getPageAble());
-        List<CustomerResponse> list = page.getContent().stream().map(customerMapper::toResponse).toList();
-        return new PageAbleResponse<>(page, list);
+        return PageMapper.toResponse(customerRepository.findAll(request.getPageAble()), customerMapper::toResponse);
     }
 
     @Override @Transactional
@@ -63,7 +57,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     private void apply(Customer c, CustomerRequest r) {
         Company company = companyRepository.findById(r.getCompanyId())
-                .orElseThrow(() -> notFound("Company"));
+                .orElseThrow(() -> ApiException.notFound("Company"));
         c.setCompany(company);
         c.setCode(r.getCode());
         c.setName(r.getName());
@@ -77,10 +71,6 @@ public class CustomerServiceImpl implements CustomerService {
     }
 
     private Customer findById(Long id) {
-        return customerRepository.findById(id).orElseThrow(() -> notFound("Customer"));
-    }
-
-    private ResponseStatusException notFound(String e) {
-        return new ResponseStatusException(HttpStatus.NOT_FOUND, e + " " + ErrorCode.NOT_FOUND.getDescription());
+        return customerRepository.findById(id).orElseThrow(() -> ApiException.notFound("Customer"));
     }
 }

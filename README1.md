@@ -195,12 +195,20 @@ Legend: ✅ implemented · 🟡 partial · ⬜ planned
 | Security — User | ✅ | `/api/v1/users` |
 | Security — Role | ✅ | `/api/v1/roles` |
 | Security — Permission | ✅ | `/api/v1/permissions` |
-| Authentication — token issuance / external IdP | 🟡 | resource-server only (JWT validated, issued externally) |
-| Multi-Branch Transfer | ⬜ | — |
-| Pharmacy module | ⬜ | — |
-| Pub / Restaurant module | ⬜ | — |
-| Staff Shift & Attendance | ⬜ | — |
-| Reporting / Analytics | ⬜ | — |
+| Authentication — local login (JWT issuance) | ✅ | `/api/v1/auth/login`, `/api/v1/auth/me` |
+| Authentication — external IdP / SSO | 🟡 | resource-server also validates external-issuer JWTs |
+| Multi-Branch Transfer | ✅ | `/api/v1/branch-transfers` |
+| Pharmacy — Manufacturer | ✅ | `/api/v1/manufacturers` |
+| Pharmacy — Drug Category | ✅ | `/api/v1/drug-categories` |
+| Pharmacy — Medicine Batch (expiry) | ✅ | `/api/v1/medicine-batches` |
+| Pharmacy — Prescription | ✅ | `/api/v1/prescriptions` |
+| Pub/Restaurant — Table | ✅ | `/api/v1/tables` |
+| Pub/Restaurant — Reservation | ✅ | `/api/v1/reservations` |
+| Pub/Restaurant — Menu Item | ✅ | `/api/v1/menu-items` |
+| Pub/Restaurant — Kitchen Ticket | ✅ | `/api/v1/kitchen-tickets` |
+| Staff — Shift template | ✅ | `/api/v1/shifts` |
+| Staff — Shift roster & attendance | ✅ | `/api/v1/staff-shifts` |
+| Reporting / Analytics | ✅ | `/api/v1/reports` |
 
 Every endpoint follows the same conventions:
 - Standard envelope `{ result, resultCode, resultMessage, body }` (`NormalizeResponse`).
@@ -230,9 +238,62 @@ Open drawer (float) → pay-in / pay-out movements → Close drawer
   `Role` (per company) → assigned to `User` (per company), plus per-user branch access.
 - User passwords use the **local-password fallback**: stored BCrypt-hashed in
   `users.password_hash` and never returned by the API.
-- Token **validation** is handled here as an OAuth2 resource server
-  (`erp.security.enabled=true` + `issuer-uri`); token **issuance** and external IdP
-  login are delegated to a separate authorization server (not in this service).
+- **Local login** (`POST /api/v1/auth/login`) authenticates username/password against
+  the BCrypt hash and returns a signed **HS256 JWT** (claims: `sub`, `uid`, `companyId`,
+  `roles`, `fullName`, `exp`). The same `erp.security.jwt.secret` signs and validates,
+  so login-issued tokens pass the resource server when `erp.security.enabled=true`.
+- On first startup a **SUPER_ADMIN** is seeded (`erp.security.seed-superadmin=true`):
+  default `superadmin` / `123456` under a "Default Company" — change these in production.
+- The resource server can *also* validate JWTs from an external authorization server
+  (set `spring.security.oauth2.resourceserver.jwt.issuer-uri`) for SSO / external IdP.
+
+```bash
+# Log in and grab a token
+curl -X POST http://localhost:8090/api/v1/auth/login \
+  -H 'Content-Type: application/json' \
+  -d '{"username":"superadmin","password":"123456"}'
+# -> { "body": { "accessToken": "<JWT>", "tokenType": "Bearer", "expiresIn": 3600, "user": {...} } }
+```
+
+### Inter-branch transfer flow (implemented)
+
+```
+Create transfer (DRAFT) → ship (IN_TRANSIT, deduct source warehouse)
+        → receive (RECEIVED, add destination warehouse)
+        → cancel restores in-transit stock to the source
+```
+
+### Pharmacy flow (implemented)
+
+```
+Receive medicine → create batch (stock-in via InventoryService)
+        → track expiry (GET /medicine-batches/expiring?withinDays=N)
+        → sell (invoice line carries batch_id) → record prescription
+```
+
+### Pub / Restaurant flow (implemented)
+
+```
+Open table (status OCCUPIED) → kitchen ticket (NEW)
+        → PREPARING → READY → SERVED (served_at stamped)
+        → payment via Sales → free table (status AVAILABLE)
+```
+
+### Staff shift & attendance flow (implemented)
+
+```
+Define shift template → roster staff (SCHEDULED)
+        → punch CLOCK_IN (OPEN) → BREAK_START/BREAK_END
+        → punch CLOCK_OUT (CLOSED): worked_minutes = span − paired breaks
+```
+
+### Reporting (implemented)
+
+`GET /api/v1/reports/...` — `sales-summary`, `top-products`, `profit`
+(revenue − COGS via product cost), `low-stock` (on-hand ≤ reorder level),
+`expense-summary` (by category), and `dashboard` (today + month-to-date
+snapshot with top products and low-stock list). All are read-only JPQL
+aggregates scoped by `companyId` and a date range.
 
 # Getting Started
 

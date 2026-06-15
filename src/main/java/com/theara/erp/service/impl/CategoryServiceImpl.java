@@ -1,25 +1,21 @@
 package com.theara.erp.service.impl;
 
-import com.theara.erp.constant.ErrorCode;
+import com.theara.erp.common.PageMapper;
 import com.theara.erp.dto.request.CategoryRequest;
 import com.theara.erp.dto.request.PageAbleRequest;
 import com.theara.erp.dto.response.CategoryResponse;
 import com.theara.erp.dto.response.PageAbleResponse;
 import com.theara.erp.entity.Category;
 import com.theara.erp.entity.Company;
+import com.theara.erp.exception.ApiException;
 import com.theara.erp.mapper.CategoryMapper;
 import com.theara.erp.repository.CategoryRepository;
 import com.theara.erp.repository.CompanyRepository;
 import com.theara.erp.service.CategoryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.server.ResponseStatusException;
-
-import java.util.List;
 
 @Slf4j @Service @RequiredArgsConstructor
 public class CategoryServiceImpl implements CategoryService {
@@ -49,9 +45,7 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override @Transactional(readOnly = true)
     public PageAbleResponse<Category, CategoryResponse, Void> getCategories(PageAbleRequest<Void> request) {
-        Page<Category> page = categoryRepository.findAll(request.getPageAble());
-        List<CategoryResponse> list = page.getContent().stream().map(categoryMapper::toResponse).toList();
-        return new PageAbleResponse<>(page, list);
+        return PageMapper.toResponse(categoryRepository.findAll(request.getPageAble()), categoryMapper::toResponse);
     }
 
     @Override @Transactional
@@ -63,13 +57,14 @@ public class CategoryServiceImpl implements CategoryService {
 
     private void apply(Category c, CategoryRequest r) {
         Company company = companyRepository.findById(r.getCompanyId())
-                .orElseThrow(() -> notFound("Company"));
+                .orElseThrow(() -> ApiException.notFound("Company"));
         c.setCompany(company);
         if (r.getParentId() != null) {
             if (r.getParentId().equals(c.getId())) {
-                throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "Category cannot be its own parent");
+                throw ApiException.badRequest("Category cannot be its own parent");
             }
-            c.setParent(categoryRepository.findById(r.getParentId()).orElseThrow(() -> notFound("Parent category")));
+            c.setParent(categoryRepository.findById(r.getParentId())
+                    .orElseThrow(() -> ApiException.notFound("Parent category")));
         } else {
             c.setParent(null);
         }
@@ -78,10 +73,6 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     private Category findById(Long id) {
-        return categoryRepository.findById(id).orElseThrow(() -> notFound("Category"));
-    }
-
-    private ResponseStatusException notFound(String e) {
-        return new ResponseStatusException(HttpStatus.NOT_FOUND, e + " " + ErrorCode.NOT_FOUND.getDescription());
+        return categoryRepository.findById(id).orElseThrow(() -> ApiException.notFound("Category"));
     }
 }

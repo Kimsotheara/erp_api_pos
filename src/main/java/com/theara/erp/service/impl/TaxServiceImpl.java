@@ -1,25 +1,21 @@
 package com.theara.erp.service.impl;
 
-import com.theara.erp.constant.ErrorCode;
+import com.theara.erp.common.PageMapper;
 import com.theara.erp.dto.request.PageAbleRequest;
 import com.theara.erp.dto.request.TaxRequest;
 import com.theara.erp.dto.response.PageAbleResponse;
 import com.theara.erp.dto.response.TaxResponse;
 import com.theara.erp.entity.Company;
 import com.theara.erp.entity.Tax;
+import com.theara.erp.exception.ApiException;
 import com.theara.erp.mapper.TaxMapper;
 import com.theara.erp.repository.CompanyRepository;
 import com.theara.erp.repository.TaxRepository;
 import com.theara.erp.service.TaxService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.server.ResponseStatusException;
-
-import java.util.List;
 
 @Slf4j @Service @RequiredArgsConstructor
 public class TaxServiceImpl implements TaxService {
@@ -49,9 +45,7 @@ public class TaxServiceImpl implements TaxService {
 
     @Override @Transactional(readOnly = true)
     public PageAbleResponse<Tax, TaxResponse, Void> getTaxes(PageAbleRequest<Void> request) {
-        Page<Tax> page = taxRepository.findAll(request.getPageAble());
-        List<TaxResponse> list = page.getContent().stream().map(taxMapper::toResponse).toList();
-        return new PageAbleResponse<>(page, list);
+        return PageMapper.toResponse(taxRepository.findAll(request.getPageAble()), taxMapper::toResponse);
     }
 
     @Override @Transactional
@@ -63,7 +57,7 @@ public class TaxServiceImpl implements TaxService {
 
     private void apply(Tax t, TaxRequest r) {
         Company company = companyRepository.findById(r.getCompanyId())
-                .orElseThrow(() -> notFound("Company"));
+                .orElseThrow(() -> ApiException.notFound("Company"));
         t.setCompany(company);
         t.setName(r.getName());
         t.setRate(r.getRate());
@@ -72,10 +66,6 @@ public class TaxServiceImpl implements TaxService {
     }
 
     private Tax findById(Long id) {
-        return taxRepository.findById(id).orElseThrow(() -> notFound("Tax"));
-    }
-
-    private ResponseStatusException notFound(String e) {
-        return new ResponseStatusException(HttpStatus.NOT_FOUND, e + " " + ErrorCode.NOT_FOUND.getDescription());
+        return taxRepository.findById(id).orElseThrow(() -> ApiException.notFound("Tax"));
     }
 }

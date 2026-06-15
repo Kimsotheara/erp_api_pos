@@ -1,11 +1,12 @@
 package com.theara.erp.service.impl;
 
-import com.theara.erp.constant.ErrorCode;
+import com.theara.erp.common.PageMapper;
 import com.theara.erp.dto.request.IncomeRequest;
 import com.theara.erp.dto.request.PageAbleRequest;
 import com.theara.erp.dto.response.IncomeResponse;
 import com.theara.erp.dto.response.PageAbleResponse;
 import com.theara.erp.entity.Income;
+import com.theara.erp.exception.ApiException;
 import com.theara.erp.mapper.IncomeMapper;
 import com.theara.erp.repository.BranchRepository;
 import com.theara.erp.repository.CompanyRepository;
@@ -13,14 +14,10 @@ import com.theara.erp.repository.IncomeRepository;
 import com.theara.erp.service.IncomeService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.data.domain.Page;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.server.ResponseStatusException;
 
 import java.time.LocalDate;
-import java.util.List;
 
 @Slf4j @Service @RequiredArgsConstructor
 public class IncomeServiceImpl implements IncomeService {
@@ -51,9 +48,7 @@ public class IncomeServiceImpl implements IncomeService {
 
     @Override @Transactional(readOnly = true)
     public PageAbleResponse<Income, IncomeResponse, Void> getIncomes(PageAbleRequest<Void> request) {
-        Page<Income> page = incomeRepository.findAll(request.getPageAble());
-        List<IncomeResponse> list = page.getContent().stream().map(incomeMapper::toResponse).toList();
-        return new PageAbleResponse<>(page, list);
+        return PageMapper.toResponse(incomeRepository.findAll(request.getPageAble()), incomeMapper::toResponse);
     }
 
     @Override @Transactional
@@ -64,9 +59,9 @@ public class IncomeServiceImpl implements IncomeService {
     }
 
     private void apply(Income i, IncomeRequest r) {
-        i.setCompany(companyRepository.findById(r.getCompanyId()).orElseThrow(() -> notFound("Company")));
+        i.setCompany(companyRepository.findById(r.getCompanyId()).orElseThrow(() -> ApiException.notFound("Company")));
         i.setBranch(r.getBranchId() == null ? null
-                : branchRepository.findById(r.getBranchId()).orElseThrow(() -> notFound("Branch")));
+                : branchRepository.findById(r.getBranchId()).orElseThrow(() -> ApiException.notFound("Branch")));
         i.setCategory(r.getCategory());
         i.setAmount(r.getAmount());
         i.setDescription(r.getDescription());
@@ -75,10 +70,6 @@ public class IncomeServiceImpl implements IncomeService {
     }
 
     private Income findById(Long id) {
-        return incomeRepository.findById(id).orElseThrow(() -> notFound("Income"));
-    }
-
-    private ResponseStatusException notFound(String e) {
-        return new ResponseStatusException(HttpStatus.NOT_FOUND, e + " " + ErrorCode.NOT_FOUND.getDescription());
+        return incomeRepository.findById(id).orElseThrow(() -> ApiException.notFound("Income"));
     }
 }

@@ -26,8 +26,7 @@ public class SwaggerConfig {
                         .title("ERP POS Platform API")
                         .version("1.0.0")
                         .description("""
-                                Modular ERP + POS REST API for Mini Mart, Pharmacy, Pub/Restaurant and more.
-                                Authenticate using an OAuth2 / OIDC access token (JWT) and click 'Authorize'.
+                                Modular ERP POS REST API. Authenticate using an OAuth2 / OIDC access token (JWT) and click 'Authorize'.
                                 """)
                         .contact(new Contact().name("Theara").email("ounkaa789@gmail.com"))
                         .license(new License().name("Proprietary")))
