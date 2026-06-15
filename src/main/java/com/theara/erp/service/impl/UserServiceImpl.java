@@ -76,9 +76,8 @@ public class UserServiceImpl implements UserService {
 
     @Override @Transactional(readOnly = true)
     public PageAbleResponse<User, UserResponse, Void> getUsers(PageAbleRequest<Void> request) {
-        Page<User> page = userRepository.findAll(request.getPageAble());
-        List<UserResponse> list = page.getContent().stream().map(userMapper::toResponse).toList();
-        return new PageAbleResponse<>(page, list);
+        return com.theara.erp.common.PageMapper.toResponseWithoutImage(
+                userRepository.findAll(request.getPageAble()), userMapper::toResponse);
     }
 
     @Override @Transactional

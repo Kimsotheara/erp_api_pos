@@ -44,7 +44,7 @@ public class BrandServiceImpl implements BrandService {
 
     @Override @Transactional(readOnly = true)
     public PageAbleResponse<Brand, BrandResponse, Void> getBrands(PageAbleRequest<Void> request) {
-        return PageMapper.toResponse(brandRepository.findAll(request.getPageAble()), brandMapper::toResponse);
+        return PageMapper.toResponseWithoutImage(brandRepository.findAll(request.getPageAble()), brandMapper::toResponse);
     }
 
     @Override @Transactional

@@ -61,9 +61,8 @@ public class SupplierServiceImpl implements SupplierService {
 
     @Override @Transactional(readOnly = true)
     public PageAbleResponse<Supplier, SupplierResponse, Void> getSuppliers(PageAbleRequest<Void> request) {
-        Page<Supplier> page = supplierRepository.findAll(request.getPageAble());
-        List<SupplierResponse> list = page.getContent().stream().map(supplierMapper::toResponse).toList();
-        return new PageAbleResponse<>(page, list);
+        return com.theara.erp.common.PageMapper.toResponseWithoutImage(
+                supplierRepository.findAll(request.getPageAble()), supplierMapper::toResponse);
     }
 
     @Override @Transactional

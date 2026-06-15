@@ -7,7 +7,7 @@ import java.time.LocalDateTime;
 import java.util.List;
 
 @Data @Builder @NoArgsConstructor @AllArgsConstructor
-public class SupplierResponse {
+public class SupplierResponse implements Imageable {
     private Long id;
     private Long companyId;
     private String code;

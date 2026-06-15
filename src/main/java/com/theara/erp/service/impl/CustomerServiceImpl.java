@@ -45,7 +45,7 @@ public class CustomerServiceImpl implements CustomerService {
 
     @Override @Transactional(readOnly = true)
     public PageAbleResponse<Customer, CustomerResponse, Void> getCustomers(PageAbleRequest<Void> request) {
-        return PageMapper.toResponse(customerRepository.findAll(request.getPageAble()), customerMapper::toResponse);
+        return PageMapper.toResponseWithoutImage(customerRepository.findAll(request.getPageAble()), customerMapper::toResponse);
     }
 
     @Override @Transactional
