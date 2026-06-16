@@ -1,5 +1,6 @@
 package com.theara.erp.service.impl;
 
+import com.theara.erp.common.BarcodeGenerator;
 import com.theara.erp.constant.ErrorCode;
 import com.theara.erp.dto.request.PageAbleRequest;
 import com.theara.erp.dto.request.ProductRequest;
@@ -13,6 +14,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.StringUtils;
 import org.springframework.web.server.ResponseStatusException;
 
 import java.math.BigDecimal;
@@ -38,7 +40,14 @@ public class ProductServiceImpl implements com.theara.erp.service.ProductService
         }
         Product product = new Product();
         applyRequest(product, request);
-        return productMapper.toResponse(productRepository.save(product));
+        validateBarcodeUnique(request.getCompanyId(), product.getBarcode(), null);
+        product = productRepository.save(product);
+        // Auto-generate an internal barcode when none was supplied, so every product is scannable/printable.
+        if (!StringUtils.hasText(product.getBarcode())) {
+            product.setBarcode(BarcodeGenerator.internalValue(product.getId()));
+            product = productRepository.save(product);
+        }
+        return productMapper.toResponse(product);
     }
 
     @Override
@@ -56,6 +65,10 @@ public class ProductServiceImpl implements com.theara.erp.service.ProductService
                     "SKU '" + request.getSku() + "' " + ErrorCode.SKU_ALREADY_EXISTS.getDescription());
         }
         applyRequest(product, request);
+        validateBarcodeUnique(request.getCompanyId(), product.getBarcode(), id);
+        if (!StringUtils.hasText(product.getBarcode())) {
+            product.setBarcode(BarcodeGenerator.internalValue(id));
+        }
         return productMapper.toResponse(productRepository.save(product));
     }
 
@@ -75,6 +88,24 @@ public class ProductServiceImpl implements com.theara.erp.service.ProductService
     }
 
     @Override
+    @Transactional(readOnly = true)
+    public byte[] getBarcodeImage(Long id) {
+        Product product = findById(id);
+        return BarcodeGenerator.toPng(product.getBarcode());
+    }
+
+    private void validateBarcodeUnique(Long companyId, String barcode, Long excludeId) {
+        if (!StringUtils.hasText(barcode)) return;
+        boolean exists = excludeId == null
+                ? productRepository.existsByCompanyIdAndBarcode(companyId, barcode)
+                : productRepository.existsByCompanyIdAndBarcodeAndIdNot(companyId, barcode, excludeId);
+        if (exists) {
+            throw new ResponseStatusException(HttpStatus.CONFLICT,
+                    "Barcode '" + barcode + "' " + ErrorCode.ALREADY_EXISTS.getDescription());
+        }
+    }
+
+    @Override
     @Transactional
     public void deleteProduct(Long id) {
         Product product = findById(id);
@@ -85,7 +116,7 @@ public class ProductServiceImpl implements com.theara.erp.service.ProductService
     private void applyRequest(Product product, ProductRequest request) {
         product.setCompany(resolveCompany(request.getCompanyId()));
         product.setSku(request.getSku());
-        product.setBarcode(request.getBarcode());
+        product.setBarcode(StringUtils.hasText(request.getBarcode()) ? request.getBarcode().trim() : null);
         product.setName(request.getName());
         product.setDescription(request.getDescription());
         product.setImage(request.getImage());

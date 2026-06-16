@@ -19,5 +19,7 @@ public interface ProductService {
 
     ProductResponse setActiveStatus(Long id, Boolean isActive);
 
+    byte[] getBarcodeImage(Long id);
+
     void deleteProduct(Long id);
 }

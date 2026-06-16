@@ -13,6 +13,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -67,6 +68,19 @@ public class ProductController {
     @PutMapping("/{id}")
     public ResponseEntity<?> updateProduct(@PathVariable Long id, @Valid @RequestBody ProductRequest request) {
         return DefaultResponse.withCode(productService.updateProduct(id, request), ErrorCode.SUCCESS);
+    }
+
+    @Operation(summary = "Get product barcode image",
+            description = "Returns a Code128 PNG of the product's barcode, ready to print on a label.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "PNG image"),
+            @ApiResponse(responseCode = "404", description = "Product not found")
+    })
+    @GetMapping(value = "/{id}/barcode/image", produces = MediaType.IMAGE_PNG_VALUE)
+    public ResponseEntity<byte[]> getProductBarcodeImage(@PathVariable Long id) {
+        return ResponseEntity.ok()
+                .contentType(MediaType.IMAGE_PNG)
+                .body(productService.getBarcodeImage(id));
     }
 
     @Operation(summary = "Activate/deactivate product", description = "Toggles the product's active status.")
