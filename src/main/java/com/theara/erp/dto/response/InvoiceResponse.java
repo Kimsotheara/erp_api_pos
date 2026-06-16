@@ -29,6 +29,7 @@ public class InvoiceResponse {
     private BigDecimal totalAmount;
     private BigDecimal paidAmount;
     private BigDecimal changeAmount;
+    private BigDecimal refundedAmount;
     private String note;
     private Long tableId;
     private List<InvoiceItemResponse> items;

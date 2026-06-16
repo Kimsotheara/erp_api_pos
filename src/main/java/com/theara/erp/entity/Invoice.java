@@ -73,6 +73,10 @@ public class Invoice extends Audit {
     @Builder.Default
     private BigDecimal changeAmount = BigDecimal.ZERO;
 
+    @Column(name = "refunded_amount", nullable = false, precision = 18, scale = 4)
+    @Builder.Default
+    private BigDecimal refundedAmount = BigDecimal.ZERO;
+
     @Column(columnDefinition = "TEXT")
     private String note;
 

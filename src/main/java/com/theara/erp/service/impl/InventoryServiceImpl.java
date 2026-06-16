@@ -13,6 +13,8 @@ import com.theara.erp.repository.WarehouseRepository;
 import com.theara.erp.service.InventoryService;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -91,6 +93,41 @@ public class InventoryServiceImpl implements InventoryService {
     public Stock getOnHand(Long warehouseId, Long productId) {
         return stockRepository.findOnHandWithProduct(warehouseId, productId)
                 .orElseThrow(() -> notFound("Stock"));
+    }
+
+    @Override
+    @Transactional
+    public Stock stockOut(Long warehouseId, Long productId, BigDecimal quantity, String note) {
+        if (quantity == null || quantity.signum() <= 0) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "quantity must be > 0");
+        }
+        return applyMovement(warehouseId, productId, quantity.negate(),
+                StockMovementType.OUT, null, "MANUAL", null, note);
+    }
+
+    @Override
+    @Transactional
+    public Stock adjust(Long warehouseId, Long productId, BigDecimal countedQuantity, String note) {
+        if (countedQuantity == null || countedQuantity.signum() < 0) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "countedQuantity must be >= 0");
+        }
+        Stock existing = stockRepository.findByWarehouseIdAndProductId(warehouseId, productId).orElse(null);
+        BigDecimal current = existing != null ? existing.getQuantity() : BigDecimal.ZERO;
+        BigDecimal delta = countedQuantity.subtract(current);
+        if (delta.signum() == 0) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST,
+                    "Counted quantity equals on-hand; nothing to adjust");
+        }
+        // Keep the moving-average cost stable on positive adjustments by reusing the current average.
+        BigDecimal cost = existing != null ? existing.getAvgCost() : BigDecimal.ZERO;
+        return applyMovement(warehouseId, productId, delta,
+                StockMovementType.ADJUSTMENT, cost, "ADJUSTMENT", null, note);
+    }
+
+    @Override
+    @Transactional(readOnly = true)
+    public Page<StockMovement> getMovements(Long warehouseId, Long productId, Pageable pageable) {
+        return stockMovementRepository.search(warehouseId, productId, pageable);
     }
 
     private ResponseStatusException notFound(String entity) {

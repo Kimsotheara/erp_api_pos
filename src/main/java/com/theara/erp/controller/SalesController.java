@@ -3,6 +3,7 @@ package com.theara.erp.controller;
 import com.theara.erp.constant.ErrorCode;
 import com.theara.erp.dto.request.PageAbleRequest;
 import com.theara.erp.dto.request.SaleRequest;
+import com.theara.erp.dto.request.SaleReturnRequest;
 import com.theara.erp.dto.request.VoidInvoiceRequest;
 import com.theara.erp.dto.response.DefaultResponse;
 import com.theara.erp.service.SalesService;
@@ -65,5 +66,20 @@ public class SalesController {
     @PostMapping("/invoices/{id}/void")
     public ResponseEntity<?> voidInvoice(@PathVariable Long id, @Valid @RequestBody VoidInvoiceRequest request) {
         return DefaultResponse.withCode(salesService.voidInvoice(id, request), ErrorCode.SUCCESS);
+    }
+
+    @Operation(summary = "Return / refund invoice lines",
+            description = "Processes a partial or full sales return: restocks the returned quantity of each "
+                    + "selected line into the given warehouse (and its medicine batch when applicable), refunds the "
+                    + "proportional line value, and sets the invoice to PARTIALLY_REFUNDED or REFUNDED.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Return processed"),
+            @ApiResponse(responseCode = "400", description = "Line does not belong to the invoice"),
+            @ApiResponse(responseCode = "404", description = "Invoice or warehouse not found"),
+            @ApiResponse(responseCode = "409", description = "Return quantity exceeds returnable, or invoice voided/already refunded")
+    })
+    @PostMapping("/invoices/{id}/return")
+    public ResponseEntity<?> returnSale(@PathVariable Long id, @Valid @RequestBody SaleReturnRequest request) {
+        return DefaultResponse.withCode(salesService.returnSale(id, request), ErrorCode.SUCCESS);
     }
 }

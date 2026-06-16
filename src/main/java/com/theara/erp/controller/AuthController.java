@@ -1,6 +1,7 @@
 package com.theara.erp.controller;
 
 import com.theara.erp.constant.ErrorCode;
+import com.theara.erp.dto.request.ChangePasswordRequest;
 import com.theara.erp.dto.request.LoginRequest;
 import com.theara.erp.dto.response.DefaultResponse;
 import com.theara.erp.service.AuthService;
@@ -35,5 +36,18 @@ public class AuthController {
             return DefaultResponse.withCode(null, ErrorCode.UNAUTHORIZED);
         }
         return DefaultResponse.withCode(jwt.getClaims(), ErrorCode.SUCCESS);
+    }
+
+    @Operation(summary = "Change password",
+            description = "Changes the password of the currently authenticated user after verifying the current password.")
+    @PostMapping("/change-password")
+    public ResponseEntity<?> changePassword(@AuthenticationPrincipal Jwt jwt,
+                                            @Valid @RequestBody ChangePasswordRequest request) {
+        if (jwt == null) {
+            return DefaultResponse.withCode(null, ErrorCode.UNAUTHORIZED);
+        }
+        Number uid = jwt.getClaim("uid");
+        authService.changePassword(uid.longValue(), request);
+        return DefaultResponse.withCode(null, ErrorCode.SUCCESS);
     }
 }
