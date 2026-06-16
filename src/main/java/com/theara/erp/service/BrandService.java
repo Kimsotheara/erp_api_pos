@@ -11,5 +11,6 @@ public interface BrandService {
     BrandResponse getBrandById(Long id);
     BrandResponse updateBrand(Long id, BrandRequest request);
     PageAbleResponse<Brand, BrandResponse, Void> getBrands(PageAbleRequest<Void> request);
+    BrandResponse setActiveStatus(Long id, Boolean isActive);
     void deleteBrand(Long id);
 }

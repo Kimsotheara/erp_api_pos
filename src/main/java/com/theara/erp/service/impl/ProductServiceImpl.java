@@ -68,6 +68,14 @@ public class ProductServiceImpl implements com.theara.erp.service.ProductService
 
     @Override
     @Transactional
+    public ProductResponse setActiveStatus(Long id, Boolean isActive) {
+        Product product = findById(id);
+        product.setIsActive(isActive);
+        return productMapper.toResponse(productRepository.save(product));
+    }
+
+    @Override
+    @Transactional
     public void deleteProduct(Long id) {
         Product product = findById(id);
         product.setIsDeleted(1);

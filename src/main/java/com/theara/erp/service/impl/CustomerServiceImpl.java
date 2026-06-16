@@ -54,6 +54,13 @@ public class CustomerServiceImpl implements CustomerService {
         customerRepository.save(customer);
     }
 
+    @Override @Transactional
+    public CustomerResponse setActiveStatus(Long id, Boolean isActive) {
+        Customer customer = findById(id);
+        customer.setIsActive(isActive);
+        return customerMapper.toResponse(customerRepository.save(customer));
+    }
+
     private void apply(Customer c, CustomerRequest r) {
         Company company = companyRepository.findById(r.getCompanyId())
                 .orElseThrow(() -> ApiException.notFound("Company"));

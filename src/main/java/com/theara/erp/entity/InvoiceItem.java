@@ -2,6 +2,7 @@ package com.theara.erp.entity;
 
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 
 import java.math.BigDecimal;
 
@@ -47,6 +48,7 @@ public class InvoiceItem {
     private BigDecimal lineTotal = BigDecimal.ZERO;
 
     @Column(name = "returned_quantity", nullable = false, precision = 18, scale = 3)
+    @ColumnDefault("0")
     @Builder.Default
     private BigDecimal returnedQuantity = BigDecimal.ZERO;
 

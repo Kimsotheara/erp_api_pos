@@ -1,6 +1,7 @@
 package com.theara.erp.controller;
 
 import com.theara.erp.constant.ErrorCode;
+import com.theara.erp.dto.request.ActiveStatusRequest;
 import com.theara.erp.dto.request.BrandRequest;
 import com.theara.erp.dto.request.PageAbleRequest;
 import com.theara.erp.dto.response.DefaultResponse;
@@ -43,6 +44,12 @@ public class BrandController {
     @PutMapping("/{id}")
     public ResponseEntity<?> updateBrand(@PathVariable Long id, @Valid @RequestBody BrandRequest request) {
         return DefaultResponse.withCode(brandService.updateBrand(id, request), ErrorCode.SUCCESS);
+    }
+
+    @Operation(summary = "Activate/deactivate brand", description = "Toggles the brand's active status.")
+    @PatchMapping("/{id}/status")
+    public ResponseEntity<?> setBrandStatus(@PathVariable Long id, @Valid @RequestBody ActiveStatusRequest request) {
+        return DefaultResponse.withCode(brandService.setActiveStatus(id, request.getIsActive()), ErrorCode.SUCCESS);
     }
 
     @Operation(summary = "Delete brand", description = "Soft-deletes a brand.")

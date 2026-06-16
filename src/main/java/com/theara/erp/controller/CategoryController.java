@@ -1,6 +1,7 @@
 package com.theara.erp.controller;
 
 import com.theara.erp.constant.ErrorCode;
+import com.theara.erp.dto.request.ActiveStatusRequest;
 import com.theara.erp.dto.request.CategoryRequest;
 import com.theara.erp.dto.request.PageAbleRequest;
 import com.theara.erp.dto.response.DefaultResponse;
@@ -43,6 +44,12 @@ public class CategoryController {
     @PutMapping("/{id}")
     public ResponseEntity<?> updateCategory(@PathVariable Long id, @Valid @RequestBody CategoryRequest request) {
         return DefaultResponse.withCode(categoryService.updateCategory(id, request), ErrorCode.SUCCESS);
+    }
+
+    @Operation(summary = "Activate/deactivate category", description = "Toggles the category's active status.")
+    @PatchMapping("/{id}/status")
+    public ResponseEntity<?> setCategoryStatus(@PathVariable Long id, @Valid @RequestBody ActiveStatusRequest request) {
+        return DefaultResponse.withCode(categoryService.setActiveStatus(id, request.getIsActive()), ErrorCode.SUCCESS);
     }
 
     @Operation(summary = "Delete category", description = "Soft-deletes a category.")

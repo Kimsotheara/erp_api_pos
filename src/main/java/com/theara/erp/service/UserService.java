@@ -11,5 +11,6 @@ public interface UserService {
     UserResponse getUserById(Long id);
     UserResponse updateUser(Long id, UserRequest request);
     PageAbleResponse<User, UserResponse, Void> getUsers(PageAbleRequest<Void> request);
+    UserResponse setActiveStatus(Long id, Boolean isActive);
     void deleteUser(Long id);
 }

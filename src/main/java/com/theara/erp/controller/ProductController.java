@@ -1,6 +1,7 @@
 package com.theara.erp.controller;
 
 import com.theara.erp.constant.ErrorCode;
+import com.theara.erp.dto.request.ActiveStatusRequest;
 import com.theara.erp.dto.request.PageAbleRequest;
 import com.theara.erp.dto.request.ProductRequest;
 import com.theara.erp.dto.response.DefaultResponse;
@@ -66,6 +67,16 @@ public class ProductController {
     @PutMapping("/{id}")
     public ResponseEntity<?> updateProduct(@PathVariable Long id, @Valid @RequestBody ProductRequest request) {
         return DefaultResponse.withCode(productService.updateProduct(id, request), ErrorCode.SUCCESS);
+    }
+
+    @Operation(summary = "Activate/deactivate product", description = "Toggles the product's active status.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Status updated"),
+            @ApiResponse(responseCode = "404", description = "Product not found")
+    })
+    @PatchMapping("/{id}/status")
+    public ResponseEntity<?> setProductStatus(@PathVariable Long id, @Valid @RequestBody ActiveStatusRequest request) {
+        return DefaultResponse.withCode(productService.setActiveStatus(id, request.getIsActive()), ErrorCode.SUCCESS);
     }
 
     @Operation(summary = "Delete product", description = "Soft-deletes a product.")

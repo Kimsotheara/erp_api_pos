@@ -54,6 +54,13 @@ public class CategoryServiceImpl implements CategoryService {
         categoryRepository.save(category);
     }
 
+    @Override @Transactional
+    public CategoryResponse setActiveStatus(Long id, Boolean isActive) {
+        Category category = findById(id);
+        category.setIsActive(isActive);
+        return categoryMapper.toResponse(categoryRepository.save(category));
+    }
+
     private void apply(Category c, CategoryRequest r) {
         Company company = companyRepository.findById(r.getCompanyId())
                 .orElseThrow(() -> ApiException.notFound("Company"));

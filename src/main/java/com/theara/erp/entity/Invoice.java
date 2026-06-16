@@ -4,6 +4,7 @@ import com.theara.erp.constant.Audit;
 import com.theara.erp.constant.InvoiceStatus;
 import jakarta.persistence.*;
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 import org.hibernate.annotations.SQLRestriction;
 
 import java.math.BigDecimal;
@@ -74,6 +75,7 @@ public class Invoice extends Audit {
     private BigDecimal changeAmount = BigDecimal.ZERO;
 
     @Column(name = "refunded_amount", nullable = false, precision = 18, scale = 4)
+    @ColumnDefault("0")
     @Builder.Default
     private BigDecimal refundedAmount = BigDecimal.ZERO;
 

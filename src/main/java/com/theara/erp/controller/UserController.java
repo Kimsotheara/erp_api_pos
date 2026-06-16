@@ -1,6 +1,7 @@
 package com.theara.erp.controller;
 
 import com.theara.erp.constant.ErrorCode;
+import com.theara.erp.dto.request.ActiveStatusRequest;
 import com.theara.erp.dto.request.PageAbleRequest;
 import com.theara.erp.dto.request.UserRequest;
 import com.theara.erp.dto.response.DefaultResponse;
@@ -43,6 +44,12 @@ public class UserController {
     @PutMapping("/{id}")
     public ResponseEntity<?> updateUser(@PathVariable Long id, @Valid @RequestBody UserRequest request) {
         return DefaultResponse.withCode(userService.updateUser(id, request), ErrorCode.SUCCESS);
+    }
+
+    @Operation(summary = "Activate/deactivate user", description = "Toggles the user's active status.")
+    @PatchMapping("/{id}/status")
+    public ResponseEntity<?> setUserStatus(@PathVariable Long id, @Valid @RequestBody ActiveStatusRequest request) {
+        return DefaultResponse.withCode(userService.setActiveStatus(id, request.getIsActive()), ErrorCode.SUCCESS);
     }
 
     @Operation(summary = "Delete user", description = "Soft-deletes a user.")

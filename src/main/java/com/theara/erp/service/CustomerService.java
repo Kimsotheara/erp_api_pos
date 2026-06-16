@@ -11,5 +11,6 @@ public interface CustomerService {
     CustomerResponse getCustomerById(Long id);
     CustomerResponse updateCustomer(Long id, CustomerRequest request);
     PageAbleResponse<Customer, CustomerResponse, Void> getCustomers(PageAbleRequest<Void> request);
+    CustomerResponse setActiveStatus(Long id, Boolean isActive);
     void deleteCustomer(Long id);
 }

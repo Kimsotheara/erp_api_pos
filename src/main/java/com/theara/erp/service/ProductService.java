@@ -17,5 +17,7 @@ public interface ProductService {
 
     PageAbleResponse<Product, ProductResponse, Void> getProducts(PageAbleRequest<Void> request);
 
+    ProductResponse setActiveStatus(Long id, Boolean isActive);
+
     void deleteProduct(Long id);
 }
