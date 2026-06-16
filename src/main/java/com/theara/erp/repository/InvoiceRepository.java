@@ -1,5 +1,6 @@
 package com.theara.erp.repository;
 
+import com.theara.erp.constant.InvoiceStatus;
 import com.theara.erp.dto.projection.SalesSummaryProjection;
 import com.theara.erp.entity.Invoice;
 import org.springframework.data.jpa.repository.JpaRepository;
@@ -13,6 +14,7 @@ import java.time.LocalDateTime;
 public interface InvoiceRepository extends JpaRepository<Invoice, Long> {
     long countByCompanyId(Long companyId);
     boolean existsByCompanyIdAndInvoiceNumber(Long companyId, String invoiceNumber);
+    boolean existsByTableIdAndStatus(Long tableId, InvoiceStatus status);
 
     @Query("""
             select coalesce(sum(i.totalAmount), 0) as totalSales,

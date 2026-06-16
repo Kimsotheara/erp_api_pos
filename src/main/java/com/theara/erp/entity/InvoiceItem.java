@@ -46,6 +46,10 @@ public class InvoiceItem {
     @Builder.Default
     private BigDecimal lineTotal = BigDecimal.ZERO;
 
+    @Column(name = "returned_quantity", nullable = false, precision = 18, scale = 3)
+    @Builder.Default
+    private BigDecimal returnedQuantity = BigDecimal.ZERO;
+
     @Column(name = "batch_id")
     private Long batchId;
 }

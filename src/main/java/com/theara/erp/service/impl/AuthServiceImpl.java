@@ -1,8 +1,10 @@
 package com.theara.erp.service.impl;
 
+import com.theara.erp.dto.request.ChangePasswordRequest;
 import com.theara.erp.dto.request.LoginRequest;
 import com.theara.erp.dto.response.LoginResponse;
 import com.theara.erp.entity.User;
+import com.theara.erp.exception.ApiException;
 import com.theara.erp.mapper.UserMapper;
 import com.theara.erp.repository.UserRepository;
 import com.theara.erp.service.AuthService;
@@ -48,6 +50,21 @@ public class AuthServiceImpl implements AuthService {
                 .expiresIn(jwtTokenProvider.getTtlSeconds())
                 .user(userMapper.toResponse(user))
                 .build();
+    }
+
+    @Override @Transactional
+    public void changePassword(Long userId, ChangePasswordRequest request) {
+        User user = userRepository.findById(userId).orElseThrow(() -> ApiException.notFound("User"));
+
+        if (!passwordEncoder.matches(request.getCurrentPassword(), user.getPasswordHash())) {
+            throw ApiException.badRequest("Current password is incorrect");
+        }
+        if (passwordEncoder.matches(request.getNewPassword(), user.getPasswordHash())) {
+            throw ApiException.badRequest("New password must be different from the current password");
+        }
+
+        user.setPasswordHash(passwordEncoder.encode(request.getNewPassword()));
+        userRepository.save(user);
     }
 
     private ResponseStatusException invalidCredentials() {

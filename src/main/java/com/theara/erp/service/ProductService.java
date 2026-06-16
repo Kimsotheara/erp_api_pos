@@ -11,6 +11,8 @@ public interface ProductService {
 
     ProductResponse getProductById(Long id);
 
+    ProductResponse getProductByBarcode(String barcode);
+
     ProductResponse updateProduct(Long id, ProductRequest request);
 
     PageAbleResponse<Product, ProductResponse, Void> getProducts(PageAbleRequest<Void> request);

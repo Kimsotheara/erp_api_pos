@@ -73,11 +73,18 @@ public class Invoice extends Audit {
     @Builder.Default
     private BigDecimal changeAmount = BigDecimal.ZERO;
 
+    @Column(name = "refunded_amount", nullable = false, precision = 18, scale = 4)
+    @Builder.Default
+    private BigDecimal refundedAmount = BigDecimal.ZERO;
+
     @Column(columnDefinition = "TEXT")
     private String note;
 
     @Column(name = "cashier_id")
     private Long cashierId;
+
+    @Column(name = "table_id")
+    private Long tableId;
 
     @OneToMany(mappedBy = "invoice", cascade = CascadeType.ALL, orphanRemoval = true)
     @Builder.Default

@@ -1,7 +1,10 @@
 package com.theara.erp.controller;
 
 import com.theara.erp.constant.ErrorCode;
+import com.theara.erp.dto.request.PageAbleRequest;
 import com.theara.erp.dto.request.SaleRequest;
+import com.theara.erp.dto.request.SaleReturnRequest;
+import com.theara.erp.dto.request.VoidInvoiceRequest;
 import com.theara.erp.dto.response.DefaultResponse;
 import com.theara.erp.service.SalesService;
 import io.swagger.v3.oas.annotations.Operation;
@@ -44,5 +47,39 @@ public class SalesController {
     @GetMapping("/invoices/{id}")
     public ResponseEntity<?> getInvoice(@PathVariable Long id) {
         return DefaultResponse.withCode(salesService.getInvoiceById(id), ErrorCode.SUCCESS);
+    }
+
+    @Operation(summary = "List invoices", description = "Paginated sales history.")
+    @GetMapping("/invoices")
+    public ResponseEntity<?> getInvoices(PageAbleRequest<Void> request) {
+        return DefaultResponse.withCode(salesService.getInvoices(request), ErrorCode.SUCCESS);
+    }
+
+    @Operation(summary = "Void an invoice",
+            description = "Reverses the sale: restocks each line into the given warehouse "
+                    + "(and back into its medicine batch when applicable) and sets the invoice to VOID.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Invoice voided"),
+            @ApiResponse(responseCode = "404", description = "Invoice or warehouse not found"),
+            @ApiResponse(responseCode = "409", description = "Invoice already voided")
+    })
+    @PostMapping("/invoices/{id}/void")
+    public ResponseEntity<?> voidInvoice(@PathVariable Long id, @Valid @RequestBody VoidInvoiceRequest request) {
+        return DefaultResponse.withCode(salesService.voidInvoice(id, request), ErrorCode.SUCCESS);
+    }
+
+    @Operation(summary = "Return / refund invoice lines",
+            description = "Processes a partial or full sales return: restocks the returned quantity of each "
+                    + "selected line into the given warehouse (and its medicine batch when applicable), refunds the "
+                    + "proportional line value, and sets the invoice to PARTIALLY_REFUNDED or REFUNDED.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Return processed"),
+            @ApiResponse(responseCode = "400", description = "Line does not belong to the invoice"),
+            @ApiResponse(responseCode = "404", description = "Invoice or warehouse not found"),
+            @ApiResponse(responseCode = "409", description = "Return quantity exceeds returnable, or invoice voided/already refunded")
+    })
+    @PostMapping("/invoices/{id}/return")
+    public ResponseEntity<?> returnSale(@PathVariable Long id, @Valid @RequestBody SaleReturnRequest request) {
+        return DefaultResponse.withCode(salesService.returnSale(id, request), ErrorCode.SUCCESS);
     }
 }

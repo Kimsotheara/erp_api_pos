@@ -132,7 +132,7 @@ List endpoints accept `pageNumber`, `size`, `sortProperty`, `sortDirection`.
 
 | Area | Base path(s) |
 | --- | --- |
-| Auth | `/api/v1/auth/login`, `/auth/me` |
+| Auth | `/api/v1/auth/login`, `/auth/me`, `/auth/change-password` |
 | Security | `/users`, `/roles`, `/permissions` |
 | Organization | `/companies`, `/branches`, `/currencies`, `/taxes` |
 | Product | `/products`, `/categories`, `/brands`, `/units` |
@@ -155,6 +155,13 @@ line (request price or active RETAIL `product_prices`), computes per-line tax
 invoice with items + payments, sets status (`PAID`/`PARTIAL`/`OPEN`) and change,
 then deducts stock via `InventoryService`.
 
+`POST /api/v1/sales/invoices/{id}/return` handles **partial or full returns**:
+restock the returned quantity of each selected line (and its medicine batch),
+refund the proportional line value (tax included, net of line discount), bump
+each line's `returnedQuantity` and the invoice's `refundedAmount`, and move the
+invoice to `PARTIALLY_REFUNDED` or `REFUNDED`. `POST /invoices/{id}/void` remains
+the whole-invoice reversal.
+
 Inventory changes always go through `InventoryService.applyMovement`, which
 **pessimistically locks** the `stocks` row, refuses to go negative (409
 *Insufficient stock*), keeps a **moving-average cost**, and appends to the
@@ -167,6 +174,7 @@ Inventory changes always go through `InventoryService.applyMovement`, which
 - **Pharmacy**: medicine batches post stock-in; `GET /medicine-batches/expiring?withinDays=N` for expiry alerts.
 - **Kitchen ticket**: `NEW → PREPARING → READY → SERVED` via `PATCH /{id}/status`.
 - **Staff shift**: roster, then `POST /{id}/punch` (CLOCK_IN/OUT/BREAK) — worked minutes = span − breaks.
+- **Inventory**: `stock-in` (receive) / `stock-out` (issue) / `adjust` (stock-take to a counted quantity, posting the difference as an `ADJUSTMENT`); `GET /inventory/movements` reads the paginated stock-movement ledger (filter by `warehouseId`/`productId`).
 
 ## Performance — N+1 avoided
 List endpoints map lazy `@ManyToOne`/collection associations per row. To keep that

@@ -108,6 +108,13 @@ public class ProductServiceImpl implements com.theara.erp.service.ProductService
         return productRepository.findById(id).orElseThrow(() -> notFound("Product"));
     }
 
+    @Override
+    @Transactional(readOnly = true)
+    public ProductResponse getProductByBarcode(String barcode) {
+        return productMapper.toResponse(productRepository.findFirstByBarcode(barcode)
+                .orElseThrow(() -> notFound("Product")));
+    }
+
     private ResponseStatusException notFound(String entity) {
         return new ResponseStatusException(HttpStatus.NOT_FOUND, entity + " " + ErrorCode.NOT_FOUND.getDescription());
     }

@@ -40,6 +40,12 @@ public class ProductController {
         return DefaultResponse.withCode(productService.getProductById(id), ErrorCode.SUCCESS);
     }
 
+    @Operation(summary = "Find product by barcode", description = "POS scan lookup.")
+    @GetMapping("/barcode/{barcode}")
+    public ResponseEntity<?> getProductByBarcode(@PathVariable String barcode) {
+        return DefaultResponse.withCode(productService.getProductByBarcode(barcode), ErrorCode.SUCCESS);
+    }
+
     @Operation(summary = "Create product")
     @ApiResponses({
             @ApiResponse(responseCode = "201", description = "Created"),
