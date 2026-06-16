@@ -13,7 +13,8 @@ import java.math.BigDecimal;
 @Setter
 @SQLRestriction("is_deleted = 0")
 @Entity
-@Table(name = "products")
+@Table(name = "products", uniqueConstraints = @UniqueConstraint(
+        name = "uk_products_company_barcode", columnNames = {"company_id", "barcode"}))
 public class Product extends Audit {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

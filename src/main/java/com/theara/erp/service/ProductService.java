@@ -17,5 +17,9 @@ public interface ProductService {
 
     PageAbleResponse<Product, ProductResponse, Void> getProducts(PageAbleRequest<Void> request);
 
+    ProductResponse setActiveStatus(Long id, Boolean isActive);
+
+    byte[] getBarcodeImage(Long id);
+
     void deleteProduct(Long id);
 }

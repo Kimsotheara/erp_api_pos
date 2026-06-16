@@ -210,7 +210,8 @@ CREATE TABLE products (
     is_active       BOOLEAN NOT NULL DEFAULT TRUE,
     created_at      TIMESTAMPTZ NOT NULL DEFAULT now(),
     updated_at      TIMESTAMPTZ NOT NULL DEFAULT now(),
-    UNIQUE (company_id, sku)
+    UNIQUE (company_id, sku),
+    CONSTRAINT uk_products_company_barcode UNIQUE (company_id, barcode)  -- NULLs allowed (multiple); enforced when a barcode is set
 );
 CREATE INDEX idx_products_barcode ON products (barcode);
 CREATE INDEX idx_products_name    ON products (company_id, name);

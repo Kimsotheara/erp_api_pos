@@ -1,6 +1,7 @@
 package com.theara.erp.controller;
 
 import com.theara.erp.constant.ErrorCode;
+import com.theara.erp.dto.request.ActiveStatusRequest;
 import com.theara.erp.dto.request.PageAbleRequest;
 import com.theara.erp.dto.request.ProductRequest;
 import com.theara.erp.dto.response.DefaultResponse;
@@ -12,6 +13,7 @@ import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -66,6 +68,29 @@ public class ProductController {
     @PutMapping("/{id}")
     public ResponseEntity<?> updateProduct(@PathVariable Long id, @Valid @RequestBody ProductRequest request) {
         return DefaultResponse.withCode(productService.updateProduct(id, request), ErrorCode.SUCCESS);
+    }
+
+    @Operation(summary = "Get product barcode image",
+            description = "Returns a Code128 PNG of the product's barcode, ready to print on a label.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "PNG image"),
+            @ApiResponse(responseCode = "404", description = "Product not found")
+    })
+    @GetMapping(value = "/{id}/barcode/image", produces = MediaType.IMAGE_PNG_VALUE)
+    public ResponseEntity<byte[]> getProductBarcodeImage(@PathVariable Long id) {
+        return ResponseEntity.ok()
+                .contentType(MediaType.IMAGE_PNG)
+                .body(productService.getBarcodeImage(id));
+    }
+
+    @Operation(summary = "Activate/deactivate product", description = "Toggles the product's active status.")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200", description = "Status updated"),
+            @ApiResponse(responseCode = "404", description = "Product not found")
+    })
+    @PatchMapping("/{id}/status")
+    public ResponseEntity<?> setProductStatus(@PathVariable Long id, @Valid @RequestBody ActiveStatusRequest request) {
+        return DefaultResponse.withCode(productService.setActiveStatus(id, request.getIsActive()), ErrorCode.SUCCESS);
     }
 
     @Operation(summary = "Delete product", description = "Soft-deletes a product.")

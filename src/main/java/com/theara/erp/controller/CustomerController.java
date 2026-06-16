@@ -1,6 +1,7 @@
 package com.theara.erp.controller;
 
 import com.theara.erp.constant.ErrorCode;
+import com.theara.erp.dto.request.ActiveStatusRequest;
 import com.theara.erp.dto.request.CustomerRequest;
 import com.theara.erp.dto.request.PageAbleRequest;
 import com.theara.erp.dto.response.DefaultResponse;
@@ -40,6 +41,12 @@ public class CustomerController {
     @PutMapping("/{id}")
     public ResponseEntity<?> update(@PathVariable Long id, @Valid @RequestBody CustomerRequest request) {
         return DefaultResponse.withCode(customerService.updateCustomer(id, request), ErrorCode.SUCCESS);
+    }
+
+    @Operation(summary = "Activate/deactivate customer", description = "Toggles the customer's active status.")
+    @PatchMapping("/{id}/status")
+    public ResponseEntity<?> setStatus(@PathVariable Long id, @Valid @RequestBody ActiveStatusRequest request) {
+        return DefaultResponse.withCode(customerService.setActiveStatus(id, request.getIsActive()), ErrorCode.SUCCESS);
     }
 
     @Operation(summary = "Delete customer (soft)")

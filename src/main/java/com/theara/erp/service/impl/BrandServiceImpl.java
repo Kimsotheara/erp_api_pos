@@ -47,6 +47,13 @@ public class BrandServiceImpl implements BrandService {
     }
 
     @Override @Transactional
+    public BrandResponse setActiveStatus(Long id, Boolean isActive) {
+        Brand brand = findById(id);
+        brand.setIsActive(isActive);
+        return brandMapper.toResponse(brandRepository.save(brand));
+    }
+
+    @Override @Transactional
     public void deleteBrand(Long id) {
         Brand brand = findById(id);
         brand.setIsDeleted(1);

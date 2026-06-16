@@ -85,6 +85,13 @@ public class UserServiceImpl implements UserService {
         userRepository.save(user);
     }
 
+    @Override @Transactional
+    public UserResponse setActiveStatus(Long id, Boolean isActive) {
+        User user = findById(id);
+        user.setIsActive(isActive);
+        return userMapper.toResponse(userRepository.save(user));
+    }
+
     private void apply(User user, UserRequest r) {
         Company company = companyRepository.findById(r.getCompanyId()).orElseThrow(() -> notFound("Company"));
         user.setCompany(company);
